@@ -16,7 +16,7 @@
         <android.support.v7.widget.CardView
             android:id="@+id/genres_card"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="165dp"
             android:layout_marginTop="10dp"
             app:cardBackgroundColor="@color/colorPrimary"
             app:cardCornerRadius="4dp">
@@ -43,18 +43,91 @@
                             android:padding="10dp"
                             android:text="See All"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                            android:textColor="@android:color/holo_blue_light"
+                            android:textColor="@color/gold"
                             android:textStyle="bold" />
 
-                        <android.support.v7.widget.CardView
-                            android:id="@+id/genres_image"
-                            android:layout_width="100dp"
-                            android:layout_height="150dp"
-                            android:layout_below="@id/genres_text"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginLeft="10dp">
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal"
+                                    android:layout_marginTop="15dp">
+                                        <ImageView
+                                            android:id="@+id/action"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/action"
+                                            android:layout_marginTop="30dp"
+                                            android:layout_marginLeft="15dp"/>
+                                        <ImageView
+                                            android:id="@+id/adventure"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/adventure"
+                                            android:layout_marginTop="30dp"
+                                            android:layout_marginLeft="15dp"/>
+                                        <ImageView
+                                            android:id="@+id/animation"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/animation"
+                                            android:layout_marginTop="30dp"
+                                            android:layout_marginLeft="15dp"/>
+                                        <ImageView
+                                            android:id="@+id/comedy"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/comedy"
+                                            android:layout_marginTop="30dp"
+                                            android:layout_marginLeft="15dp"/>
+                                        <ImageView
+                                            android:id="@+id/drama"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/drama"
+                                            android:layout_marginTop="30dp"
+                                            android:layout_marginLeft="15dp"/>
+                                        <ImageView
+                                            android:id="@+id/fantasy"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/fantasy"
+                                            android:layout_marginTop="30dp"
+                                            android:layout_marginLeft="15dp"/>
+                                        <ImageView
+                                            android:id="@+id/horror"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/horror"
+                                            android:layout_marginTop="30dp"
+                                            android:layout_marginLeft="15dp"/>
+                                        <ImageView
+                                            android:id="@+id/romance"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/romance"
+                                            android:layout_marginTop="30dp"
+                                            android:layout_marginLeft="15dp"/>
+                                        <ImageView
+                                            android:id="@+id/scifi"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/scifi"
+                                            android:layout_marginTop="30dp"
+                                            android:layout_marginLeft="15dp"/>
+                                        <ImageView
+                                            android:id="@+id/thriller"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/thriller"
+                                            android:layout_marginTop="30dp"
+                                            android:layout_marginLeft="15dp"/>
 
-                        </android.support.v7.widget.CardView>
+                                </LinearLayout>
+                        </HorizontalScrollView>
+
                 </RelativeLayout>
 
         </android.support.v7.widget.CardView>
@@ -85,7 +158,7 @@
                             android:layout_height="wrap_content"
                             android:text="See All"
                             android:layout_alignParentEnd="true"
-                            android:textColor="@android:color/holo_blue_light"
+                            android:textColor="@color/gold"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                             android:textStyle="bold"
                             android:padding="10dp"/>
