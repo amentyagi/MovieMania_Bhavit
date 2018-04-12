@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".MoviesFragment">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+        <!-- TODO: Update blank fragment layout -->
+        <android.support.v7.widget.CardView
+            android:id="@+id/genres_card"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardCornerRadius="4dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/genres_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:text="Genres"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:textColor="@android:color/white"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/see_all_genres"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:padding="10dp"
+                            android:text="See All"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:textColor="@android:color/holo_blue_light"
+                            android:textStyle="bold" />
+
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/genres_image"
+                            android:layout_width="100dp"
+                            android:layout_height="150dp"
+                            android:layout_below="@id/genres_text"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginLeft="10dp">
+
+                        </android.support.v7.widget.CardView>
+                </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/new_release_card"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:layout_marginTop="10dp"
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardCornerRadius="4dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/new_release_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="New Releases"
+                            android:textColor="@android:color/white"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:textStyle="bold"
+                            android:padding="10dp"/>
+                        <TextView
+                            android:id="@+id/see_all_new_release"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="See All"
+                            android:layout_alignParentEnd="true"
+                            android:textColor="@android:color/holo_blue_light"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:textStyle="bold"
+                            android:padding="10dp"/>
+
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/trailer_image"
+                            android:layout_width="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:layout_height="220dp"
+                            android:layout_below="@id/new_release_text"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginLeft="10dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+
+                        </android.support.v7.widget.CardView>
+
+                </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+</LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

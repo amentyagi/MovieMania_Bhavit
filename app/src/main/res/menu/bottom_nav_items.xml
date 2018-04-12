@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/movie_btn"
+        android:checkable="false"
+        android:icon="@drawable/ic_movie_white_48dp"
+        android:title="Movies" />
+
+    <item
+        android:id="@+id/tv_btn"
+        android:checkable="false"
+        android:icon="@drawable/ic_tv_white_48dp"
+        android:title="TV Shows" />
+    <item
+        android:id="@+id/profile_btn"
+        android:checkable="false"
+        android:icon="@drawable/ic_person_white_48dp"
+        android:title="Profile" />
+</menu>
