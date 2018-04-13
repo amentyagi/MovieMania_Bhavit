@@ -1,75 +1,316 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<android.support.v4.widget.SwipeRefreshLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorPrimaryDark"
-    tools:context=".MoviesFragment">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/genres_card"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:id="@+id/swipeRefresh"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+        <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="165dp"
-            android:layout_marginTop="10dp"
-            app:cardBackgroundColor="@color/colorPrimary"
-            app:cardCornerRadius="4dp">
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/new_release_card"
-            android:layout_width="match_parent"
-            android:layout_height="280dp"
-            android:layout_marginTop="10dp"
-            app:cardBackgroundColor="@color/colorPrimary"
-            app:cardCornerRadius="4dp">
-
-                <RelativeLayout
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:context="com.anuntah.moviemania"
+            tools:showIn="@layout/fragment_tv">
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                        <TextView
-                            android:id="@+id/new_release_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="New Releases"
-                            android:textColor="@android:color/white"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                            android:textStyle="bold"
-                            android:padding="10dp"/>
-                        <TextView
-                            android:id="@+id/see_all_new_release"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="See All"
-                            android:layout_alignParentEnd="true"
-                            android:textColor="@color/gold"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                            android:textStyle="bold"
-                            android:padding="10dp"/>
-
-                        <android.support.v7.widget.CardView
-                            android:id="@+id/trailer_image"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp">
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_marginRight="10dp"
-                            android:layout_height="220dp"
-                            android:layout_below="@id/new_release_text"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginLeft="10dp">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPrimary"
+                            android:orientation="vertical">
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
 
-                        </android.support.v7.widget.CardView>
+                                        <TextView
+                                            android:id="@+id/genres_text"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:padding="10dp"
+                                            android:text="Genres"
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                                            android:textColor="@android:color/white"
+                                            android:textStyle="bold" />
+                                        <TextView
+                                            android:id="@+id/see_all_genres"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentEnd="true"
+                                            android:padding="10dp"
+                                            android:text="See All"
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                                            android:textColor="@color/gold"
+                                            android:textStyle="bold"
+                                            android:layout_alignBaseline="@+id/genres_text"/>
 
-                </RelativeLayout>
+                                        <HorizontalScrollView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent">
+                                                <LinearLayout
+                                                    android:paddingBottom="10dp"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+                                                    android:orientation="horizontal"
+                                                    android:layout_marginTop="15dp">
+                                                        <ImageView
+                                                            android:id="@+id/action"
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="wrap_content"
+                                                            android:src="@drawable/action"
+                                                            android:layout_marginTop="30dp"
+                                                            android:layout_marginLeft="15dp"/>
+                                                        <ImageView
+                                                            android:id="@+id/adventure"
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="wrap_content"
+                                                            android:src="@drawable/adventure"
+                                                            android:layout_marginTop="30dp"
+                                                            android:layout_marginLeft="15dp"/>
+                                                        <ImageView
+                                                            android:id="@+id/animation"
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="wrap_content"
+                                                            android:src="@drawable/animation"
+                                                            android:layout_marginTop="30dp"
+                                                            android:layout_marginLeft="15dp"/>
+                                                        <ImageView
+                                                            android:id="@+id/comedy"
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="wrap_content"
+                                                            android:src="@drawable/comedy"
+                                                            android:layout_marginTop="30dp"
+                                                            android:layout_marginLeft="15dp"/>
+                                                        <ImageView
+                                                            android:id="@+id/drama"
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="wrap_content"
+                                                            android:src="@drawable/drama"
+                                                            android:layout_marginTop="30dp"
+                                                            android:layout_marginLeft="15dp"/>
+                                                        <ImageView
+                                                            android:id="@+id/fantasy"
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="wrap_content"
+                                                            android:src="@drawable/fantasy"
+                                                            android:layout_marginTop="30dp"
+                                                            android:layout_marginLeft="15dp"/>
+                                                        <ImageView
+                                                            android:id="@+id/horror"
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="wrap_content"
+                                                            android:src="@drawable/horror"
+                                                            android:layout_marginTop="30dp"
+                                                            android:layout_marginLeft="15dp"/>
+                                                        <ImageView
+                                                            android:id="@+id/romance"
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="wrap_content"
+                                                            android:src="@drawable/romance"
+                                                            android:layout_marginTop="30dp"
+                                                            android:layout_marginLeft="15dp"/>
+                                                        <ImageView
+                                                            android:id="@+id/scifi"
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="wrap_content"
+                                                            android:src="@drawable/scifi"
+                                                            android:layout_marginTop="30dp"
+                                                            android:layout_marginLeft="15dp"/>
+                                                        <ImageView
+                                                            android:id="@+id/thriller"
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="wrap_content"
+                                                            android:src="@drawable/thriller"
+                                                            android:layout_marginTop="30dp"
+                                                            android:layout_marginLeft="15dp"/>
+                                                        -->
 
-        </android.support.v7.widget.CardView>
-</LinearLayout>
+                                                </LinearLayout>
+                                        </HorizontalScrollView>
 
-</android.support.v4.widget.NestedScrollView>
+                                </RelativeLayout>
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPrimary"
+                            android:orientation="vertical"
+                            android:layout_marginTop="10dp">
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+
+                                        <TextView
+                                            android:id="@+id/in_theatre_text"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:padding="10dp"
+                                            android:text="In Theatres"
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                                            android:textColor="@android:color/white"
+                                            android:textStyle="bold" />
+                                        <TextView
+                                            android:id="@+id/in_theatre_text_seeall"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentEnd="true"
+                                            android:padding="10dp"
+                                            android:text="See All"
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                                            android:textColor="@color/gold"
+                                            android:textStyle="bold"
+                                            android:layout_alignBaseline="@+id/in_theatre_text"/>
+
+                                </RelativeLayout>
+
+                                <android.support.v7.widget.RecyclerView
+                                    android:id="@+id/recyclerInTheatre"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:background="@color/colorPrimary"
+                                    />
+
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPrimary"
+                            android:orientation="vertical"
+                            android:layout_marginTop="10dp">
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+
+                                        <TextView
+                                            android:id="@+id/popular_text"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:padding="10dp"
+                                            android:text="Popular"
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                                            android:textColor="@android:color/white"
+                                            android:textStyle="bold" />
+                                        <TextView
+                                            android:id="@+id/popular_see_all"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentEnd="true"
+                                            android:padding="10dp"
+                                            android:text="See All"
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                                            android:textColor="@color/gold"
+                                            android:textStyle="bold"
+                                            android:layout_alignBaseline="@+id/popular_text"/>
+
+                                </RelativeLayout>
+
+                                <android.support.v7.widget.RecyclerView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:background="@color/colorPrimary"
+                                    android:id="@+id/recyclerPopular"/>
+
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPrimary"
+                            android:orientation="vertical"
+                            android:layout_marginTop="10dp">
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+
+                                        <TextView
+                                            android:id="@+id/upcoming_text"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:padding="10dp"
+                                            android:text="Upcoming"
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                                            android:textColor="@android:color/white"
+                                            android:textStyle="bold" />
+                                        <TextView
+                                            android:id="@+id/upcoming_see_all"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentEnd="true"
+                                            android:padding="10dp"
+                                            android:text="See All"
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                                            android:textColor="@color/gold"
+                                            android:textStyle="bold"
+                                            android:layout_alignBaseline="@+id/upcoming_text"/>
+
+                                </RelativeLayout>
+
+                                <android.support.v7.widget.RecyclerView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:background="@color/colorPrimary"
+                                    android:id="@+id/recyclerUpcoming"/>
+
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPrimary"
+                            android:orientation="vertical"
+                            android:layout_marginTop="10dp">
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+
+                                        <TextView
+                                            android:id="@+id/topRated_text"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:padding="10dp"
+                                            android:text="Top Rated"
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                                            android:textColor="@android:color/white"
+                                            android:textStyle="bold" />
+                                        <TextView
+                                            android:id="@+id/topRated_see_all"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentEnd="true"
+                                            android:padding="10dp"
+                                            android:text="See All"
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                                            android:textColor="@color/gold"
+                                            android:textStyle="bold"
+                                            android:layout_alignBaseline="@+id/topRated_text"/>
+
+                                </RelativeLayout>
+
+                                <android.support.v7.widget.RecyclerView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:background="@color/colorPrimary"
+                                    android:id="@+id/recyclerTopRated"/>
+
+
+                        </LinearLayout>
+
+
+
+                </LinearLayout>
+
+
+
+        </android.support.v4.widget.NestedScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>
