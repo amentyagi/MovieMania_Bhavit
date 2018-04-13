@@ -1,11 +1,9 @@
 package com.anuntah.moviemania;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -23,9 +21,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.genre_poster);
 
-        bottomNavigationView=findViewById(R.id.mainNav);
+        /*bottomNavigationView=findViewById(R.id.mainNav);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -42,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return true;
             }
-        });
+        });*/
 
     }
 }

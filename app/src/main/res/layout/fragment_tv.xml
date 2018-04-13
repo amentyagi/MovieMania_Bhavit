@@ -8,6 +8,6 @@
     tools:context=".MainActivity">
 
 
-    <include layout="@layout/movies_scroll_cards" />
+    <include layout="@layout/tv_scroll_cards" />
 
 </android.support.design.widget.CoordinatorLayout>
