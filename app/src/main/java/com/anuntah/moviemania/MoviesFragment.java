@@ -40,10 +40,17 @@ public class MoviesFragment extends Fragment {
         // Required empty public constructor
     }
 
+    MoviesRecyclerAdapter topratedRecyclerAdapter;
 
-    RecyclerView poprecycler;
+    ArrayList<Movie> topratedmovies=new ArrayList<>();
+
+    ArrayList<Movie> upcomingmovie=new ArrayList<>();
+
+
+    RecyclerView poprecycler,toprecycler,upcomingrecycler;
     ArrayList<Movie> popular_movie=new ArrayList<>();
     MoviesRecyclerAdapter moviesRecyclerAdapter;
+    MoviesRecyclerAdapter upcomingRecyclerAdapter;
     RecyclerView recyclerView;
     TrailerRecyclerAdapter trailerRecyclerAdapter;
     @Override
@@ -53,11 +60,14 @@ public class MoviesFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_movies, container, false);
         recyclerView=view.findViewById(R.id.recyclerInTheatre);
         poprecycler=view.findViewById(R.id.recyclerPopular);
+        toprecycler=view.findViewById(R.id.recyclerTopRated);
+        upcomingrecycler=view.findViewById(R.id.recyclerUpcoming);
 
 
         fetchTrailers();
 
         fetchPopularMovies();
+        fetchTopRatedMovies();
 
         trailerRecyclerAdapter=new TrailerRecyclerAdapter(getContext(), trailer_movielist);
 
@@ -71,19 +81,54 @@ public class MoviesFragment extends Fragment {
         LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         poprecycler.setLayoutManager(layoutManager);
+
+
+        topratedRecyclerAdapter=new MoviesRecyclerAdapter(getContext(),topratedmovies);
+        LinearLayoutManager Manager=new LinearLayoutManager(getContext());
+        Manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        toprecycler.setLayoutManager(Manager);
+
+
+        upcomingRecyclerAdapter=new MoviesRecyclerAdapter(getContext(),upcomingmovie);
+        LinearLayoutManager upcominglayout=new LinearLayoutManager(getContext());
+        upcominglayout.setOrientation(LinearLayoutManager.HORIZONTAL);
+        upcomingrecycler.setLayoutManager(upcominglayout);
+
+
+        upcomingrecycler.setAdapter(upcomingRecyclerAdapter);
+        toprecycler.setAdapter(topratedRecyclerAdapter);
         poprecycler.setAdapter(moviesRecyclerAdapter);
         recyclerView.setAdapter(trailerRecyclerAdapter);
 
-
-
         return view;
+    }
+
+    private void fetchTopRatedMovies() {
+        Call<Movie_testclass> call=movieAPI.getTopRated();
+        call.enqueue(new Callback<Movie_testclass>() {
+            @Override
+            public void onResponse(Call<Movie_testclass> call, Response<Movie_testclass> response) {
+                topratedmovies.clear();
+                Log.d("result",response.toString());
+                Movie_testclass movie_testclass=response.body();
+                topratedmovies.addAll(movie_testclass.getResults());
+                topratedRecyclerAdapter.notifyDataSetChanged();
+                Toast.makeText(getContext(),topratedmovies.size()+"",Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onFailure(Call<Movie_testclass> call, Throwable t) {
+
+            }
+        });
     }
 
     private void fetchPopularMovies() {
         Map<String,String> query=new HashMap<>();
         query.put(Constants.LANG,Constants.LANGUAGE);
         query.put(Constants.SORT_BY,Constants.POPULAR);
-        Call<Movie_testclass> call=movieAPI.getPopularMovieList(query);
+        Call<Movie_testclass> call=movieAPI.getPopularMovieList();
         call.enqueue(new Callback<Movie_testclass>() {
             @Override
             public void onResponse(Call<Movie_testclass> call, Response<Movie_testclass> response) {
@@ -112,10 +157,12 @@ public class MoviesFragment extends Fragment {
         call.enqueue(new Callback<Movie_testclass>() {
             @Override
             public void onResponse(Call<Movie_testclass> call, Response<Movie_testclass> response) {
+                upcomingmovie.clear();
                 Movie_testclass results=response.body();
                 Log.d("result",response.toString());
                 ArrayList<Movie> upcoming_list=results.getResults();
-
+                upcomingmovie.addAll(upcoming_list);
+                upcomingRecyclerAdapter.notifyDataSetChanged();
                 trailer_movielist=fetchVideos(upcoming_list);
                 trailerRecyclerAdapter.notifyDataSetChanged();
                 Toast.makeText(getContext(),String.valueOf(trailer_movielist.size()),Toast.LENGTH_SHORT).show();
