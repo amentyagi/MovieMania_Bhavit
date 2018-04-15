@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -33,6 +34,9 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
+        Toast.makeText(context,position+"",Toast.LENGTH_SHORT).show();
+
+        holder.textView.setText(String.valueOf(movies.get(position).getVote_average()));
         holder.movie_name.setText(movies.get(position).getTitle());
         holder.movie_year.setText(movies.get(position).getRelease_date());
         Picasso.get().load(Constants.IMAGE_URI+""+movies.get(position).getPoster_path()).into(holder.movie_poster);
