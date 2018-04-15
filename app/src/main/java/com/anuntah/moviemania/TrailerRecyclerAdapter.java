@@ -61,7 +61,7 @@ public class TrailerRecyclerAdapter extends RecyclerView.Adapter<TrailerRecycler
                 @Override
                 public void onInitializationSuccess(final YouTubeThumbnailView youTubeThumbnailView, final YouTubeThumbnailLoader youTubeThumbnailLoader) {
 
-                    Picasso.get().load(Constants.YTIMAGE_URI+""+movies.get(position).getTrailerid()+"/maxresdefault.jpg").resize(500,205).into(holder.ytThubnailView);
+                    Picasso.get().load(Constants.YTIMAGE_URI+""+movies.get(position).getTrailerid()+"/maxresdefault.jpg").resize(500,210).into(holder.ytThubnailView);
                     youTubeThumbnailLoader.setOnThumbnailLoadedListener(new YouTubeThumbnailLoader.OnThumbnailLoadedListener() {
 
                         @Override

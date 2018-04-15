@@ -11,12 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubeThumbnailLoader;
-import com.google.android.youtube.player.YouTubeThumbnailView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +29,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class MoviesFragment extends Fragment {
 
+    ArrayList<Movie> popular_movie=new ArrayList<>();
 
+    RecyclerView recyclerpopular;
 
     private Retrofit retrofit=new Retrofit.Builder().baseUrl(Constants.base_url).addConverterFactory(GsonConverterFactory.create()).build();
     MovieAPI movieAPI=retrofit.create(MovieAPI.class);
@@ -45,6 +42,7 @@ public class MoviesFragment extends Fragment {
     }
 
 
+    MoviesRecyclerAdapter moviesRecyclerAdapter;
     RecyclerView recyclerView;
     TrailerRecyclerAdapter trailerRecyclerAdapter;
     @Override
@@ -53,9 +51,11 @@ public class MoviesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_movies, container, false);
         recyclerView=view.findViewById(R.id.recyclerInTheatre);
-
+        recyclerpopular =view.findViewById(R.id.recyclerPopular);
 
         fetchTrailers();
+
+
 
         trailerRecyclerAdapter=new TrailerRecyclerAdapter(getContext(),trailer_movielist);
 
@@ -64,9 +64,41 @@ public class MoviesFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
+
         recyclerView.setAdapter(trailerRecyclerAdapter);
 
+        moviesRecyclerAdapter=new MoviesRecyclerAdapter(getContext(),popular_movie);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerpopular.setLayoutManager(layoutManager);
+        recyclerpopular.setAdapter(moviesRecyclerAdapter);
+
+        fetchPopularMovies();
+
         return view;
+    }
+
+    private void fetchPopularMovies() {
+        Map<String,String> query=new HashMap<>();
+        query.put(Constants.LANG,Constants.LANGUAGE);
+        query.put(Constants.SORT_BY,Constants.POPULAR);
+        Call<Movie_testclass> call=movieAPI.getPopularMovieList(query);
+        call.enqueue(new Callback<Movie_testclass>() {
+            @Override
+            public void onResponse(Call<Movie_testclass> call, Response<Movie_testclass> response) {
+                Log.d("result",response.toString());
+                Movie_testclass movie_testclass=response.body();
+                popular_movie=movie_testclass.getResults();
+                moviesRecyclerAdapter.notifyDataSetChanged();
+                Toast.makeText(getContext(),popular_movie.size()+"",Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onFailure(Call<Movie_testclass> call, Throwable t) {
+                Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void fetchTrailers() {
