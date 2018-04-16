@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary">
+    <ImageView
+        android:id="@+id/movie_thumbnail"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:src="@drawable/animation"
+        android:scaleType="centerCrop" />
+    <TextView
+        android:id="@+id/movie_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rio 2"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:layout_toEndOf="@+id/movie_thumbnail"
+        android:layout_marginLeft="10dp"/>
+    <TextView
+        android:id="@+id/movie_genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Animation, Comedy"
+        android:textStyle="bold"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:layout_toEndOf="@+id/movie_thumbnail"
+        android:layout_below="@+id/movie_name"
+        android:textColor="@color/colorWhite"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="3dp"/>
+    <TextView
+        android:id="@+id/movie_release"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="24-06-2015"
+        android:textStyle="bold"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:layout_toEndOf="@+id/movie_thumbnail"
+        android:layout_below="@+id/movie_genre"
+        android:textColor="@color/colorWhite"
+        android:layout_marginLeft="10dp"/>
+    <ImageView
+        android:id="@+id/movie_rating_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:text="Animation, Comedy"
+        android:textStyle="bold"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:layout_toEndOf="@+id/movie_thumbnail"
+        android:layout_below="@+id/movie_release"
+        android:src="@drawable/star_fill"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/movie_rating"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_below="@+id/movie_release"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="3dp"
+        android:layout_toEndOf="@+id/movie_rating_icon"
+        android:layout_toRightOf="@+id/movie_rating_icon"
+        android:text="Animation, Comedy"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/movie_rating_icon"
+        tools:text="7"
+        tools:ignore="UnknownId" />
+
+</RelativeLayout>
