@@ -175,6 +175,7 @@
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal"
                                     android:background="@color/colorPrimary"
+                                    android:padding="10dp"
                                     />
 
 
@@ -188,7 +189,6 @@
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent">
-
                                         <TextView
                                             android:id="@+id/popular_text"
                                             android:layout_width="wrap_content"
@@ -212,12 +212,20 @@
 
                                 </RelativeLayout>
 
-                                <android.support.v7.widget.RecyclerView
+                                <android.support.v7.widget.CardView
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:background="@color/colorPrimary"
-                                    android:id="@+id/recyclerPopular"/>
+                                    android:layout_height="match_parent"
+                                    android:background="@color/colorPrimary">
+
+                                        <android.support.v7.widget.RecyclerView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal"
+                                            android:padding="10dp"
+                                            android:background="@color/colorPrimary"
+                                            android:id="@+id/recyclerPopular"/>
+                                </android.support.v7.widget.CardView>
+
 
 
                         </LinearLayout>
@@ -259,6 +267,7 @@
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal"
                                     android:background="@color/colorPrimary"
+                                    android:layout_margin="10dp"
                                     android:id="@+id/recyclerUpcoming"/>
 
 
@@ -301,6 +310,7 @@
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal"
                                     android:background="@color/colorPrimary"
+                                    android:layout_margin="10dp"
                                     android:id="@+id/recyclerTopRated"/>
 
 

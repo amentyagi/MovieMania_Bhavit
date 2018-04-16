@@ -17,7 +17,7 @@
         app:itemIconTint="@color/nav_item_colors"
         app:itemTextColor="@color/nav_item_colors"
         app:menu="@menu/bottom_nav_items"
-        app:elevation="16dp">
+        app:elevation="@dimen/cardview_default_elevation">
 
     </android.support.design.widget.BottomNavigationView>
 
