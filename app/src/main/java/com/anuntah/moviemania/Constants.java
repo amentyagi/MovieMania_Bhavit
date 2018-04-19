@@ -16,6 +16,7 @@ public class Constants {
     public static final String POPULAR="popularity.desc";
     public static final String IMAGE_URI="http://image.tmdb.org/t/p/original/";
     public static final String YTIMAGE_URI="https://img.youtube.com/vi/";
+    public static final String VIDEO="video";
 
 
 

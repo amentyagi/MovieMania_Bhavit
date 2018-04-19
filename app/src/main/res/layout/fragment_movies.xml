@@ -13,7 +13,7 @@
             android:background="@color/colorPrimaryDark"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:context="com.anuntah.moviemania"
-            tools:showIn="@layout/fragment_tv">
+            tools:showIn="@layout/fragment_movies">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -151,7 +151,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:padding="10dp"
-                                            android:text="In Theatres"
+                                            android:text="Upcoming"
                                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                                             android:textColor="@android:color/white"
                                             android:textStyle="bold" />
@@ -175,7 +175,6 @@
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal"
                                     android:background="@color/colorPrimary"
-                                    android:padding="10dp"
                                     />
 
 
@@ -244,7 +243,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:padding="10dp"
-                                            android:text="Upcoming"
+                                            android:text="In Theatres"
                                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                                             android:textColor="@android:color/white"
                                             android:textStyle="bold" />
@@ -267,7 +266,6 @@
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal"
                                     android:background="@color/colorPrimary"
-                                    android:layout_margin="10dp"
                                     android:id="@+id/recyclerUpcoming"/>
 
 

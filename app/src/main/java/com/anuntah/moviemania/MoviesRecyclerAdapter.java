@@ -34,7 +34,7 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
-        Toast.makeText(context,position+"",Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context,position+"",Toast.LENGTH_SHORT).show();
 
         holder.textView.setText(String.valueOf(movies.get(position).getVote_average()));
         holder.movie_name.setText(movies.get(position).getTitle());

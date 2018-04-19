@@ -2,7 +2,6 @@ package com.anuntah.moviemania;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.icu.text.SimpleDateFormat;
 import android.icu.text.UnicodeSetSpanner;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,14 +19,19 @@ import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Locale;
 
 import static android.provider.Contacts.SettingsColumns.KEY;
 import static java.lang.String.format;
 
 public class TrailerRecyclerAdapter extends RecyclerView.Adapter<TrailerRecyclerAdapter.TrailerViewHolder> {
 
+    Date date=new Date();
     private final int UNINITIALIZED = 1;
     private final int INITIALIZING = 2;
     private final int INITIALIZED = 3;
@@ -34,13 +39,19 @@ public class TrailerRecyclerAdapter extends RecyclerView.Adapter<TrailerRecycler
     private int blackColor = Color.parseColor("#FF000000");
     private int transparentColor = Color.parseColor("#00000000");
 
+    interface TrailerOnClickListener{
+        void OnTrailerClicked(int pos);
+    }
+
+    private TrailerOnClickListener trailerOnClickListener;
 
     private Context context;
     private ArrayList<Movie> movies=new ArrayList<>();
 
-    public TrailerRecyclerAdapter(Context context,ArrayList<Movie> movies) {
+    public TrailerRecyclerAdapter(Context context,ArrayList<Movie> movies,TrailerOnClickListener trailerOnClickListener) {
         this.context = context;
         this.movies=movies;
+        this.trailerOnClickListener=trailerOnClickListener;
     }
 
     @Override
@@ -54,6 +65,15 @@ public class TrailerRecyclerAdapter extends RecyclerView.Adapter<TrailerRecycler
 
     @Override
     public void onBindViewHolder(final TrailerViewHolder holder, final int position) {
+
+        holder.ytThubnailView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                trailerOnClickListener.OnTrailerClicked(holder.getAdapterPosition());
+            }
+        });
+
+
         if (readyForLoadingYoutubeThumbnail) {
             Log.d("TAG", "initializing for youtube thumbnail view...");
             readyForLoadingYoutubeThumbnail = false;
@@ -61,7 +81,7 @@ public class TrailerRecyclerAdapter extends RecyclerView.Adapter<TrailerRecycler
                 @Override
                 public void onInitializationSuccess(final YouTubeThumbnailView youTubeThumbnailView, final YouTubeThumbnailLoader youTubeThumbnailLoader) {
 
-                    Picasso.get().load(Constants.YTIMAGE_URI+""+movies.get(position).getTrailerid()+"/maxresdefault.jpg").resize(500,210).into(holder.ytThubnailView);
+                    Picasso.get().load(Constants.YTIMAGE_URI+""+movies.get(position).getTrailerid()+"/maxresdefault.jpg").fit().into(holder.ytThubnailView);
                     youTubeThumbnailLoader.setOnThumbnailLoadedListener(new YouTubeThumbnailLoader.OnThumbnailLoadedListener() {
 
                         @Override
@@ -87,7 +107,78 @@ public class TrailerRecyclerAdapter extends RecyclerView.Adapter<TrailerRecycler
         }
         Picasso.get().load(Constants.IMAGE_URI+""+movies.get(position).getPoster_path()).resize(100,130).into(holder.poster);
         holder.title.setText(movies.get(position).getTitle());
-        holder.releaseyear.setText(movies.get(position).getRelease_date());
+        StringBuffer s=new StringBuffer(movies.get(position).getRelease_date());
+        String[] s1=s.toString().split("-");
+        String s2="";
+        s2=s2.concat(s1[2]);
+        s2=s2.concat(" ");
+        s2=s2.concat(s1[1]);
+        s2=s2.concat(" ");
+        s2=s2.concat(s1[0]);
+        Log.d("bhavit",s2);
+
+
+
+        String date=setDate(s1[1]);
+        if(!date.equals("0"))
+        holder.releaseyear.setText(s1[2].concat(" "+date));
+
+        ArrayList<Integer> genreid=new ArrayList<>();
+        genreid.addAll(movies.get(position).getGenre_ids());
+        StringBuffer genre=new StringBuffer();
+
+        for(int j=0;j<genreid.size();j++){
+            if(j==2)
+                break;
+            else {
+                genre.append(genrematcher(genreid.get(j)));
+                genre.append(",");
+              }
+            }
+        genre.deleteCharAt(genre.length()-1);
+        holder.genre.setText(genre.toString());
+    }
+
+    private String setDate(String s) {
+        switch (s){
+            case "01":return "Jan";
+            case "02":return "Feb";
+            case "03":return "Mar";
+            case "04":return "Apr";
+            case "05":return "May";
+            case "06":return "Jun";
+            case "07":return "Jul";
+            case "08":return "Aug";
+            case "09":return "Sep";
+            case "10":return "Oct";
+            case "11":return "Nov";
+            case "12":return "Dec";
+        }
+        return "0";
+    }
+
+    private String genrematcher(int pos) {
+        switch (pos){
+            case 28:return "Action";
+            case 12 :return "Adventure";
+            case 16 :return "Animation";
+            case 35 :return  "Comedy";
+            case 80 :return "Crime";
+            case 99 :return "Documentary";
+            case 18 :return "Drama";
+            case 14 :return "Fantasy";
+            case 27 :return  "Horror";
+            case 10749:return "Romance";
+            case 878:return  "Sci-Fic";
+            case 53 :return "Thriller";
+            case 10751: return "Family";
+            case 36:return "History";
+            case 10402:return "Music";
+            case 9648:return "Mystery";
+            case 10752:return "War";
+            case 37:return "Western";
+        }
+        return "k";
     }
 
 
