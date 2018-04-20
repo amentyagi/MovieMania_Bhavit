@@ -15,13 +15,18 @@ import java.util.ArrayList;
 
 public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAdapter.MovieViewHolder> {
 
+    interface setOnMovieClickListner{
+        void OnMovieClicked(int pos);
+    }
 
+    setOnMovieClickListner listner;
     Context context;
     ArrayList<Movie> movies;
 
-    public MoviesRecyclerAdapter(Context context, ArrayList<Movie> movies) {
+    public MoviesRecyclerAdapter(Context context, ArrayList<Movie> movies,setOnMovieClickListner listner) {
         this.context = context;
         this.movies = movies;
+        this.listner=listner;
     }
 
     @Override
@@ -33,9 +38,14 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
     }
 
     @Override
-    public void onBindViewHolder(MovieViewHolder holder, int position) {
+    public void onBindViewHolder(final MovieViewHolder holder, int position) {
 //        Toast.makeText(context,position+"",Toast.LENGTH_SHORT).show();
-
+        holder.movie_poster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listner.OnMovieClicked(holder.getAdapterPosition());
+            }
+        });
         holder.textView.setText(String.valueOf(movies.get(position).getVote_average()));
         holder.movie_name.setText(movies.get(position).getTitle());
         holder.movie_year.setText(movies.get(position).getRelease_date());

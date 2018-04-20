@@ -4,22 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimaryDark"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.youtube.player.YouTubeThumbnailView
+        <android.support.v4.view.ViewPager
             android:id="@+id/trailer_placeholder"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
-            android:background="@color/gold"
-            android:scaleType="fitCenter" />
+            android:layout_height="200dp"
+            >
+
+        </android.support.v4.view.ViewPager>
+
 
         <ImageView
             android:id="@+id/play_icon"
@@ -38,7 +39,7 @@
         <TextView
             android:id="@+id/movie_name"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="30dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="Superman : Man of Steel"
@@ -73,6 +74,7 @@
             app:layout_constraintTop_toBottomOf="@+id/movie_name" />
 
         <TextView
+            android:maxEms="15"
             android:id="@+id/movie_genre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,7 +86,7 @@
             app:layout_constraintStart_toEndOf="@+id/run_time"
             app:layout_constraintTop_toBottomOf="@+id/movie_name" />
 
-        <view
+        <View
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -96,7 +98,7 @@
         <ImageView
             android:id="@+id/movie_poster"
             android:layout_width="100dp"
-            android:layout_height="130dp"
+            android:layout_height="140dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:background="@color/gold"
@@ -104,9 +106,12 @@
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <TextView
+            android:maxEms="17"
+            android:singleLine="false"
+            android:maxLines="12"
             android:id="@+id/description"
-            android:layout_width="300dp"
-            android:layout_height="120dp"
+            android:layout_width="wrap_content"
+            android:layout_height="130dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
@@ -140,14 +145,14 @@
             app:layout_constraintStart_toEndOf="@+id/star_rating"
             app:layout_constraintTop_toBottomOf="@+id/description" />
 
-        <view
+        <View
             android:id="@+id/divider2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="490dp"
-            tools:ignore="MissingConstraints" />
+            app:layout_constraintTop_toBottomOf="@id/rating_number"
+            tools:ignore="MissingConstraints"
+             />
 
         <android.support.v7.widget.CardView
             android:id="@+id/cast_card"
@@ -163,63 +168,70 @@
                 android:id="@+id/cast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cast"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
+                android:text="Cast"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textColor="@color/colorWhite" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <LinearLayout
-                    android:paddingBottom="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
                     android:orientation="horizontal"
-                    android:layout_marginTop="15dp">
+                    android:paddingBottom="10dp">
+
                     <ImageView
                         android:id="@+id/action"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/action"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="30dp"
-                        android:layout_marginLeft="15dp"/>
+                        android:src="@drawable/action" />
+
                     <ImageView
                         android:id="@+id/adventure"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/adventure"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="30dp"
-                        android:layout_marginLeft="15dp"/>
+                        android:src="@drawable/adventure" />
+
                     <ImageView
                         android:id="@+id/animation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/animation"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="30dp"
-                        android:layout_marginLeft="15dp"/>
+                        android:src="@drawable/animation" />
+
                     <ImageView
                         android:id="@+id/comedy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/comedy"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="30dp"
-                        android:layout_marginLeft="15dp"/>
+                        android:src="@drawable/comedy" />
+
                     <ImageView
                         android:id="@+id/drama"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/drama"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="30dp"
-                        android:layout_marginLeft="15dp"/>
+                        android:src="@drawable/drama" />
+
                     <ImageView
                         android:id="@+id/fantasy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/fantasy"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="30dp"
-                        android:layout_marginLeft="15dp"/>
+                        android:src="@drawable/fantasy" />
 
                 </LinearLayout>
             </HorizontalScrollView>
@@ -240,63 +252,70 @@
                 android:id="@+id/similar_movies"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Similar Movies"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
+                android:text="Similar Movies"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textColor="@color/colorWhite" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <LinearLayout
-                    android:paddingBottom="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
                     android:orientation="horizontal"
-                    android:layout_marginTop="15dp">
+                    android:paddingBottom="10dp">
+
                     <ImageView
                         android:id="@+id/action1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/action"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="30dp"
-                        android:layout_marginLeft="15dp"/>
+                        android:src="@drawable/action" />
+
                     <ImageView
                         android:id="@+id/adventure1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/adventure"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="30dp"
-                        android:layout_marginLeft="15dp"/>
+                        android:src="@drawable/adventure" />
+
                     <ImageView
                         android:id="@+id/animation1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/animation"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="30dp"
-                        android:layout_marginLeft="15dp"/>
+                        android:src="@drawable/animation" />
+
                     <ImageView
                         android:id="@+id/comedy1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/comedy"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="30dp"
-                        android:layout_marginLeft="15dp"/>
+                        android:src="@drawable/comedy" />
+
                     <ImageView
                         android:id="@+id/drama1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/drama"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="30dp"
-                        android:layout_marginLeft="15dp"/>
+                        android:src="@drawable/drama" />
+
                     <ImageView
                         android:id="@+id/fantasy1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/fantasy"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="30dp"
-                        android:layout_marginLeft="15dp"/>
+                        android:src="@drawable/fantasy" />
 
                 </LinearLayout>
             </HorizontalScrollView>

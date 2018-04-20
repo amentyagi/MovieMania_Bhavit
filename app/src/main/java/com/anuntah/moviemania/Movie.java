@@ -2,7 +2,7 @@ package com.anuntah.moviemania;
 
 import java.util.ArrayList;
 
-public class Movie {
+public class Movie  {
     private int id;
     private String title;
     private String overview;
@@ -15,8 +15,11 @@ public class Movie {
     private String original_language;
     private ArrayList<Integer> genre_ids=new ArrayList<>();
     private String trailerid;
+    private int runtime;
+    private videos videos;
+    private ArrayList<Genre> genres;
 
-    public Movie(int id, String title, String overview, String release_date, String backdrop_path, String poster_path, int vote_count, int vote_average, int popularity, String original_language, ArrayList<Integer> genre_ids) {
+    public Movie(int id, String title, String overview, String release_date, String backdrop_path, String poster_path, int vote_count, int vote_average, int popularity, String original_language, ArrayList<Integer> genre_ids, int runtime, com.anuntah.moviemania.videos videos, ArrayList<Genre> genres) {
         this.id = id;
         this.title = title;
         this.overview = overview;
@@ -28,6 +31,9 @@ public class Movie {
         this.popularity = popularity;
         this.original_language = original_language;
         this.genre_ids = genre_ids;
+        this.runtime=runtime;
+        this.videos = videos;
+        this.genres=genres;
     }
 
     public Movie(int id, String title, String release_date, String poster_path, ArrayList<Integer> genre_ids, String trailerid,String backdrop_path) {
@@ -134,5 +140,30 @@ public class Movie {
 
     public void setGenre_ids(ArrayList<Integer> genre_ids) {
         this.genre_ids = genre_ids;
+    }
+
+
+    public int getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
+    }
+
+    public com.anuntah.moviemania.videos getVideos() {
+        return videos;
+    }
+
+    public void setVideos(com.anuntah.moviemania.videos videos) {
+        this.videos = videos;
+    }
+
+    public ArrayList<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(ArrayList<Genre> genres) {
+        this.genres = genres;
     }
 }

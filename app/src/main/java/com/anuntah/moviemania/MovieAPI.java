@@ -13,6 +13,9 @@ public interface MovieAPI {
     @GET("movie/popular?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&page=1")
     Call<Movie_testclass> getPopularMovieList();
 
+    @GET("https://api.themoviedb.org/3/movie/{movie_id}?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&language=en-US&append_to_response=videos")
+    Call<Movie> getMovieDetail(@Path("movie_id")int id);
+
     @GET("movie/now_playing?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&language=en-US&page=1&region=IN")
     Call<Movie_testclass> getNowShowing();
 

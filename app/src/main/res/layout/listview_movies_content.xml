@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="8dp"
     android:background="@color/colorPrimary">
     <ImageView
         android:id="@+id/movie_thumbnail"
         android:layout_width="80dp"
         android:layout_height="100dp"
+        android:paddingLeft="8dp"
         android:src="@drawable/animation"
         android:scaleType="centerCrop" />
     <TextView
@@ -22,6 +24,8 @@
         android:layout_toEndOf="@+id/movie_thumbnail"
         android:layout_marginLeft="10dp"/>
     <TextView
+        android:singleLine="false"
+        android:maxEms="30"
         android:id="@+id/movie_genre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,17 +49,19 @@
         android:layout_below="@+id/movie_genre"
         android:textColor="@color/colorWhite"
         android:layout_marginLeft="10dp"/>
-    <ImageView
+    <RatingBar
+        android:numStars="5"
+        android:stepSize="0.1"
+        android:isIndicator="true"
+        android:theme="@style/RatingBar"
         android:id="@+id/movie_rating_icon"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:text="Animation, Comedy"
-        android:textStyle="bold"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.RatingBar.Small"
         android:layout_toEndOf="@+id/movie_thumbnail"
         android:layout_below="@+id/movie_release"
-        android:src="@drawable/star_fill"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="6dp"
+        android:rating="4"
         android:layout_marginLeft="10dp"/>
 
     <TextView
@@ -64,7 +70,7 @@
         android:layout_height="16dp"
         android:layout_below="@+id/movie_release"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="6dp"
         android:layout_toEndOf="@+id/movie_rating_icon"
         android:layout_toRightOf="@+id/movie_rating_icon"
         android:text="Animation, Comedy"

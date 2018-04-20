@@ -53,6 +53,8 @@
                 android:layout_width="100dp"
                 android:layout_height="130dp"
                 android:layout_marginLeft="20dp"
+                android:longClickable="true"
+                android:focusable="true"
                 android:background="@color/gold"
                 app:layout_constraintBottom_toTopOf="@id/guideline"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -96,6 +98,19 @@
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@id/movie_name"
                 app:layout_constraintStart_toEndOf="@+id/release_year" />
+
+
+            <ImageView
+                android:id="@+id/share"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_share_white"
+                app:layout_constraintBottom_toTopOf="parent"
+                app:layout_constraintRight_toLeftOf="parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginRight="12dp"
+                />
+
 
 
         </android.support.constraint.ConstraintLayout>

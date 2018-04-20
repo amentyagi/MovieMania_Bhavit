@@ -1,32 +1,25 @@
 package com.anuntah.moviemania;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.icu.text.UnicodeSetSpanner;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Locale;
 
-import static android.provider.Contacts.SettingsColumns.KEY;
 import static java.lang.String.format;
 
 public class TrailerRecyclerAdapter extends RecyclerView.Adapter<TrailerRecyclerAdapter.TrailerViewHolder> {
@@ -39,19 +32,29 @@ public class TrailerRecyclerAdapter extends RecyclerView.Adapter<TrailerRecycler
     private int blackColor = Color.parseColor("#FF000000");
     private int transparentColor = Color.parseColor("#00000000");
 
+
+    interface setOnClickMoviePosterListener{
+        void OnTouchClicked(View v, MotionEvent e,int pos);
+    }
+
+
     interface TrailerOnClickListener{
         void OnTrailerClicked(int pos);
+        void OnShareClicked(int pos);
     }
+
+    private setOnClickMoviePosterListener moviePosterListener;
 
     private TrailerOnClickListener trailerOnClickListener;
 
     private Context context;
     private ArrayList<Movie> movies=new ArrayList<>();
 
-    public TrailerRecyclerAdapter(Context context,ArrayList<Movie> movies,TrailerOnClickListener trailerOnClickListener) {
+    public TrailerRecyclerAdapter(Context context,ArrayList<Movie> movies,TrailerOnClickListener trailerOnClickListener,setOnClickMoviePosterListener moviePosterListener) {
         this.context = context;
         this.movies=movies;
         this.trailerOnClickListener=trailerOnClickListener;
+        this.moviePosterListener=moviePosterListener;
     }
 
     @Override
@@ -63,6 +66,7 @@ public class TrailerRecyclerAdapter extends RecyclerView.Adapter<TrailerRecycler
         return viewHolder;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(final TrailerViewHolder holder, final int position) {
 
@@ -70,6 +74,27 @@ public class TrailerRecyclerAdapter extends RecyclerView.Adapter<TrailerRecycler
             @Override
             public void onClick(View v) {
                 trailerOnClickListener.OnTrailerClicked(holder.getAdapterPosition());
+            }
+        });
+
+
+        holder.poster.setLongClickable(true);
+        holder.poster.setClickable(true);
+
+
+        holder.poster.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                moviePosterListener.OnTouchClicked(v,event,holder.getAdapterPosition());
+                return true;
+            }
+        });
+
+        holder.share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                trailerOnClickListener.OnShareClicked(holder.getAdapterPosition());
             }
         });
 
@@ -193,10 +218,12 @@ public class TrailerRecyclerAdapter extends RecyclerView.Adapter<TrailerRecycler
         TextView title;
         TextView releaseyear;
         TextView genre;
+        ImageView share;
 
 
         public TrailerViewHolder(View itemView) {
             super(itemView);
+            share=itemView.findViewById(R.id.share);
             ytThubnailView=itemView.findViewById(R.id.trailer_placeholder);
             poster=itemView.findViewById(R.id.poster_placeholder);
             title=itemView.findViewById(R.id.movie_name);
