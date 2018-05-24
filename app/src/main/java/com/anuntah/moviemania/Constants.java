@@ -20,6 +20,7 @@ public class Constants {
     public static final String YTIMAGE_URI="https://img.youtube.com/vi/";
     public static final String VIDEO="video";
     public static final String TOPRATED="toprated";
+    public static final String UPCOMING="upcoming";
 
 
 

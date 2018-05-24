@@ -65,6 +65,8 @@ public class MovieDetail extends AppCompatActivity {
         idlist=intent.getIntegerArrayListExtra(Constants.ID);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
+
+        Log.d("list",String.valueOf(idlist.get(0)));
         listpos=intent.getIntExtra(Constants.POS,-1);
 
         Bundle b=new Bundle();

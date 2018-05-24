@@ -50,7 +50,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.TrailerOnClickListener, TrailerRecyclerAdapter.setOnClickMoviePosterListener, MoviesRecyclerAdapter.setOnMovieClickListner {
+public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.TrailerOnClickListener, TrailerRecyclerAdapter.setOnClickMoviePosterListener, MoviesRecyclerAdapter.setOnMovieClickListner, View.OnClickListener {
 
 
     private Retrofit retrofit=new Retrofit.Builder().baseUrl(Constants.base_url).addConverterFactory(GsonConverterFactory.create()).build();
@@ -70,7 +70,7 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
     ArrayList<Movie> intheatres=new ArrayList<>();
 
     Dialog dialog;
-    TextView upcomingsee;
+    TextView upcomingsee,popularsee,intheatresee,topratedsee;
     ViewGroup viewGroup;
     LinearLayout linearLayout;
     RecyclerView poprecycler,toprecycler,upcomingrecycler;
@@ -91,6 +91,50 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
         toprecycler=view.findViewById(R.id.recyclerTopRated);
         upcomingrecycler=view.findViewById(R.id.recyclerUpcoming);
         upcomingsee=view.findViewById(R.id.in_theatre_text_seeall);
+        popularsee=view.findViewById(R.id.popular_see_all);
+        intheatresee=view.findViewById(R.id.upcoming_see_all);
+        topratedsee=view.findViewById(R.id.topRated_see_all);
+
+
+        upcomingsee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(),MovieListView.class);
+                intent.putExtra(Constants.UPCOMING,"upcoming");
+                startActivity(intent);
+            }
+        });
+
+        popularsee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(),MovieListView.class);
+                intent.putExtra(Constants.UPCOMING,"popular");
+                startActivity(intent);
+
+            }
+        });
+
+        intheatresee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(),MovieListView.class);
+                intent.putExtra(Constants.UPCOMING,"intheatres");
+                startActivity(intent);
+            }
+        });
+
+        topratedsee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(),MovieListView.class);
+                intent.putExtra(Constants.UPCOMING,"toprated");
+                startActivity(intent);
+            }
+        });
+
+
+
         viewGroup=container;
 
         fetchTrailers();
@@ -198,7 +242,7 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
     }
 
     private void fetchInTheatres() {
-        Call<Movie_testclass> call=movieAPI.getNowShowing();
+        Call<Movie_testclass> call=movieAPI.getNowShowing(1);
         call.enqueue(new Callback<Movie_testclass>() {
             @Override
             public void onResponse(Call<Movie_testclass> call, Response<Movie_testclass> response) {
@@ -256,7 +300,7 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
     }
 
     private void fetchTopRatedMovies() {
-        Call<Movie_testclass> call=movieAPI.getTopRated();
+        Call<Movie_testclass> call=movieAPI.getTopRated(1);
         call.enqueue(new Callback<Movie_testclass>() {
             @Override
             public void onResponse(Call<Movie_testclass> call, Response<Movie_testclass> response) {
@@ -282,7 +326,7 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
         Map<String,String> query=new HashMap<>();
         query.put(Constants.LANG,Constants.LANGUAGE);
         query.put(Constants.SORT_BY,Constants.POPULAR);
-        Call<Movie_testclass> call=movieAPI.getPopularMovieList();
+        Call<Movie_testclass> call=movieAPI.getPopularMovieList(1);
         call.enqueue(new Callback<Movie_testclass>() {
             @Override
             public void onResponse(Call<Movie_testclass> call, Response<Movie_testclass> response) {
@@ -309,7 +353,7 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
         Map<String,String> query=new HashMap<>();
         query.put(Constants.LANG,Constants.LANGUAGE);
 
-        Call<Movie_testclass> call=movieAPI.getUpcomingMovieList(query);
+        Call<Movie_testclass> call=movieAPI.getUpcomingMovieList(query,1);
         call.enqueue(new Callback<Movie_testclass>() {
             @Override
             public void onResponse(Call<Movie_testclass> call, Response<Movie_testclass> response) {
@@ -424,5 +468,10 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
         intent.putExtra(Constants.ID,integerArrayList);
         intent.putExtra(Constants.POS,pos);
         startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Toast.makeText(getContext(),"Impressed",Toast.LENGTH_SHORT).show();
     }
 }

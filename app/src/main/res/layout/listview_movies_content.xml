@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
+    android:padding="12dp"
     android:background="@color/colorPrimary">
     <ImageView
         android:id="@+id/movie_thumbnail"
-        android:layout_width="80dp"
-        android:layout_height="100dp"
+        android:layout_width="100dp"
+        android:layout_height="130dp"
         android:paddingLeft="8dp"
         android:src="@drawable/animation"
         android:scaleType="centerCrop" />
@@ -20,7 +20,8 @@
         android:text="Rio 2"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textSize="24sp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         android:layout_toEndOf="@+id/movie_thumbnail"
         android:layout_marginLeft="10dp"/>
     <TextView
@@ -57,7 +58,7 @@
         android:id="@+id/movie_rating_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/Widget.AppCompat.RatingBar.Small"
+        style="@style/Base.Widget.AppCompat.RatingBar.Small"
         android:layout_toEndOf="@+id/movie_thumbnail"
         android:layout_below="@+id/movie_release"
         android:layout_marginTop="6dp"
@@ -66,14 +67,16 @@
 
     <TextView
         android:id="@+id/movie_rating"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/movie_release"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="18dp"
         android:layout_marginTop="6dp"
+        android:layout_alignBottom="@id/movie_rating_icon"
         android:layout_toEndOf="@+id/movie_rating_icon"
         android:layout_toRightOf="@+id/movie_rating_icon"
         android:text="Animation, Comedy"
+        android:gravity="center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
