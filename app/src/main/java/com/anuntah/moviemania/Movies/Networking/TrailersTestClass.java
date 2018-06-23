@@ -1,11 +1,13 @@
-package com.anuntah.moviemania;
+package com.anuntah.moviemania.Movies.Networking;
+
+import com.anuntah.moviemania.Movies.Networking.Trailers;
 
 import java.util.ArrayList;
 
-public class videos {
+public class TrailersTestClass {
     private ArrayList<Trailers> results;
 
-    public videos(ArrayList<Trailers> results) {
+    public TrailersTestClass(ArrayList<Trailers> results) {
         this.results = results;
     }
 

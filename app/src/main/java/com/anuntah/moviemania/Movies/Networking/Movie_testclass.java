@@ -1,4 +1,6 @@
-package com.anuntah.moviemania;
+package com.anuntah.moviemania.Movies.Networking;
+
+import com.anuntah.moviemania.Movies.Networking.Movie;
 
 import java.util.ArrayList;
 

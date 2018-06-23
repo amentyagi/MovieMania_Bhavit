@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.anuntah.moviemania.Movies.MoviesFragment;
 import com.anuntah.moviemania.TvShows.TvFragment;
 import com.google.android.youtube.player.YouTubeThumbnailView;
 

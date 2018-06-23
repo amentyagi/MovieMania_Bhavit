@@ -1,4 +1,4 @@
-package com.anuntah.moviemania;
+package com.anuntah.moviemania.Movies.Networking;
 
 public class Genre {
     private int id;

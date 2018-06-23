@@ -1,4 +1,4 @@
-package com.anuntah.moviemania;
+package com.anuntah.moviemania.Movies.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.anuntah.moviemania.Movies.Networking.Movie;
+import com.anuntah.moviemania.Movies.Constants.Constants;
+import com.anuntah.moviemania.R;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
@@ -33,12 +36,12 @@ public class TrailerRecyclerAdapter extends RecyclerView.Adapter<TrailerRecycler
     private int transparentColor = Color.parseColor("#00000000");
 
 
-    interface setOnClickMoviePosterListener{
+    public interface setOnClickMoviePosterListener{
         void OnTouchClicked(View v, MotionEvent e,int pos);
     }
 
 
-    interface TrailerOnClickListener{
+    public interface TrailerOnClickListener{
         void OnTrailerClicked(int pos);
         void OnShareClicked(int pos);
     }

@@ -1,21 +1,26 @@
-package com.anuntah.moviemania;
+package com.anuntah.moviemania.Movies.Adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.anuntah.moviemania.Movies.Networking.Movie;
+import com.anuntah.moviemania.Movies.Constants.Constants;
+import com.anuntah.moviemania.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAdapter.MovieViewHolder> {
 
-    interface setOnMovieClickListner{
+    public interface setOnMovieClickListner{
         void OnMovieClicked(int pos);
     }
 
@@ -49,6 +54,13 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
         holder.textView.setText(String.valueOf(movies.get(position).getVote_average()));
         holder.movie_name.setText(movies.get(position).getTitle());
         holder.movie_year.setText(movies.get(position).getRelease_date());
+        if(movies.get(position).getImage()!=null) {
+            Log.d("bhavit","upload");
+            byte[] blob = movies.get(position).getImage();
+            Bitmap bmp = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+            ImageView image = new ImageView(context);
+            image.setImageBitmap(bmp);
+        }
         Picasso.get().load(Constants.IMAGE_URI+""+movies.get(position).getPoster_path()).into(holder.movie_poster);
     }
 

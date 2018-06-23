@@ -1,4 +1,4 @@
-package com.anuntah.moviemania;
+package com.anuntah.moviemania.Movies.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,13 +10,16 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.anuntah.moviemania.Movies.Networking.Movie;
+import com.anuntah.moviemania.Movies.Constants.Constants;
+import com.anuntah.moviemania.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieHolder> {
 
-    interface setOnMovieClickListner{
+    public interface setOnMovieClickListner{
         void OnMovieClicked(int pos);
     }
 

@@ -1,4 +1,4 @@
-package com.anuntah.moviemania;
+package com.anuntah.moviemania.Movies.Adapter;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.anuntah.moviemania.Movies.Constants.Constants;
+import com.anuntah.moviemania.R;
+import com.anuntah.moviemania.Movies.Networking.Trailers;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -16,7 +19,7 @@ public class VideosPagerAdapter extends PagerAdapter {
     private ArrayList<Trailers> trailers;
     private Context context;
 
-    interface setOnTrailerClicked{
+    public interface setOnTrailerClicked{
         void OnVideoClicked(int pos);
     }
 

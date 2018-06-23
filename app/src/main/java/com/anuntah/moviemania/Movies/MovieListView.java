@@ -1,4 +1,4 @@
-package com.anuntah.moviemania;
+package com.anuntah.moviemania.Movies;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,8 +7,14 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.anuntah.moviemania.Movies.Adapter.MovieListAdapter;
+import com.anuntah.moviemania.Movies.Constants.Constants;
+import com.anuntah.moviemania.Movies.Networking.Movie;
+import com.anuntah.moviemania.Movies.Networking.MovieAPI;
+import com.anuntah.moviemania.Movies.Networking.Movie_testclass;
+import com.anuntah.moviemania.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,12 +63,14 @@ public class MovieListView extends AppCompatActivity {
                 @Override
                 public void OnMovieClicked(int pos) {
                     ArrayList<Integer> idlist=new ArrayList<>();
-//                    for(Movie movie:upcomingmovie){
-//                        idlist.add(movie.getId());
-//                    }
-//                    Intent intent1=new Intent(MovieListView.this,MovieDetail.class);
-//                    intent1.putIntegerArrayListExtra(Constants.ID,idlist);
-//                    startActivity(intent1);
+                    for(Movie movie:upcomingmovie){
+                        idlist.add(movie.getId());
+                    }
+                    Intent intent1=new Intent(MovieListView.this,MovieDetail.class);
+                    intent1.putIntegerArrayListExtra(Constants.ID,idlist);
+                    intent1.putExtra(Constants.POS,pos);
+
+                    startActivity(intent1);
                 }
             }, this, upcomingmovie);
              recyclerView.setAdapter(upcomingRecyclerAdapter);
@@ -79,6 +87,9 @@ public class MovieListView extends AppCompatActivity {
                     }
                     Intent intent1=new Intent(MovieListView.this,MovieDetail.class);
                     intent1.putIntegerArrayListExtra(Constants.ID,idlist);
+                    intent1.putExtra(Constants.POS,pos);
+
+                    startActivity(intent1);
                 }
             }, this, popular_movie);
             recyclerView.setAdapter(popularRecyclerAdapter);
@@ -95,6 +106,9 @@ public class MovieListView extends AppCompatActivity {
                     }
                     Intent intent1=new Intent(MovieListView.this,MovieDetail.class);
                     intent1.putIntegerArrayListExtra(Constants.ID,idlist);
+                    intent1.putExtra(Constants.POS,pos);
+                    startActivity(intent1);
+
                 }
             }, this, intheatres);
             recyclerView.setAdapter(intheatresRecyclerAdapter);
@@ -111,10 +125,23 @@ public class MovieListView extends AppCompatActivity {
                     }
                     Intent intent1=new Intent(MovieListView.this,MovieDetail.class);
                     intent1.putIntegerArrayListExtra(Constants.ID,idlist);
+                    intent1.putExtra(Constants.POS,pos);
+                    startActivity(intent1);
                 }
             }, this, topratedmovies);
             recyclerView.setAdapter(topratedRecyclerAdapter);
         }
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (!recyclerView.canScrollVertically(1)) {
+
+                }
+            }
+        });
 
     }
 

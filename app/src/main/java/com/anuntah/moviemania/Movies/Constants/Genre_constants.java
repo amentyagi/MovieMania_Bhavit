@@ -1,4 +1,4 @@
-package com.anuntah.moviemania;
+package com.anuntah.moviemania.Movies.Constants;
 
 public class Genre_constants {
     public final static String ACTION="28";

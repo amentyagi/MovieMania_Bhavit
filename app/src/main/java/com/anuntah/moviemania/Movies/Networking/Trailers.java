@@ -1,6 +1,12 @@
-package com.anuntah.moviemania;
+package com.anuntah.moviemania.Movies.Networking;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
+@Entity
 public class Trailers {
+    @PrimaryKey@NonNull
     private String id;
     private String name;
     private String type;

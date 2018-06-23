@@ -1,4 +1,4 @@
-package com.anuntah.moviemania;
+package com.anuntah.moviemania.Movies.Constants;
 
 public class Constants {
     public static final String REGION_US ="US" ;
@@ -16,11 +16,14 @@ public class Constants {
     public static final String ORI_LANG="orginal_language";
     public static final String SORT_BY="sort_by";
     public static final String POPULAR="popularity.desc";
-    public static final String IMAGE_URI="http://image.tmdb.org/t/p/original/";
+    public static final String IMAGE_URI="http://image.tmdb.org/t/p/original";
     public static final String YTIMAGE_URI="https://img.youtube.com/vi/";
     public static final String VIDEO="video";
     public static final String TOPRATED="toprated";
     public static final String UPCOMING="upcoming";
+    public static final String INTHEATRES="intheatres";
+    public static final String pOPULARS="popular";
+
 
 
 

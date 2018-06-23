@@ -1,4 +1,7 @@
-package com.anuntah.moviemania;
+package com.anuntah.moviemania.Movies.Networking;
+
+import com.anuntah.moviemania.RequestToken;
+import com.anuntah.moviemania.SessionId;
 
 import java.util.Map;
 

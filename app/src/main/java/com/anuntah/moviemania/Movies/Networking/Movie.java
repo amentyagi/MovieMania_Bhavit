@@ -1,8 +1,19 @@
-package com.anuntah.moviemania;
+package com.anuntah.moviemania.Movies.Networking;
+
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverter;
+import android.arch.persistence.room.TypeConverters;
+
+import com.anuntah.moviemania.MovieTypeConverter;
 
 import java.util.ArrayList;
 
+@Entity
 public class Movie  {
+    @PrimaryKey
     private int id;
     private String title;
     private String overview;
@@ -13,13 +24,21 @@ public class Movie  {
     private float vote_average;
     private double popularity;
     private String original_language;
-    private ArrayList<Integer> genre_ids=new ArrayList<>();
+    @Ignore
+    private ArrayList<Integer> genre_ids;
     private String trailerid;
     private int runtime;
-    private videos videos;
+    @Ignore
+    private com.anuntah.moviemania.Movies.Networking.videos videos;
+    @TypeConverters(MovieTypeConverter.class)
     private ArrayList<Genre> genres;
+    private String Tag;
+    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+    private byte[] image;
 
-    public Movie(int id, String title, String overview, String release_date, String backdrop_path, String poster_path, int vote_count, int vote_average, int popularity, String original_language, ArrayList<Integer> genre_ids, int runtime, com.anuntah.moviemania.videos videos, ArrayList<Genre> genres) {
+    public Movie(){}
+
+    public Movie(int id, String title, String overview, String release_date, String backdrop_path, String poster_path, int vote_count, int vote_average, int popularity, String original_language, ArrayList<Integer> genre_ids, int runtime, com.anuntah.moviemania.Movies.Networking.videos videos, ArrayList<Genre> genres) {
         this.id = id;
         this.title = title;
         this.overview = overview;
@@ -34,6 +53,7 @@ public class Movie  {
         this.runtime=runtime;
         this.videos = videos;
         this.genres=genres;
+
     }
 
     public Movie(int id, String title, String release_date, String poster_path, ArrayList<Integer> genre_ids, String trailerid,String backdrop_path) {
@@ -44,6 +64,22 @@ public class Movie  {
         this.genre_ids = genre_ids;
         this.trailerid = trailerid;
         this.backdrop_path=backdrop_path;
+    }
+
+    public String getTag() {
+        return Tag;
+    }
+
+    public void setTag(String tag) {
+        Tag = tag;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public String getTrailerid() {
@@ -151,18 +187,20 @@ public class Movie  {
         this.runtime = runtime;
     }
 
-    public com.anuntah.moviemania.videos getVideos() {
+    public com.anuntah.moviemania.Movies.Networking.videos getVideos() {
         return videos;
     }
 
-    public void setVideos(com.anuntah.moviemania.videos videos) {
+    public void setVideos(com.anuntah.moviemania.Movies.Networking.videos videos) {
         this.videos = videos;
     }
 
+    @TypeConverters(MovieTypeConverter.class)
     public ArrayList<Genre> getGenres() {
         return genres;
     }
 
+    @TypeConverters(MovieTypeConverter.class)
     public void setGenres(ArrayList<Genre> genres) {
         this.genres = genres;
     }
