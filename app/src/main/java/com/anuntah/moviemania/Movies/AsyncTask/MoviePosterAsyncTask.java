@@ -1,4 +1,4 @@
-package com.anuntah.moviemania;
+package com.anuntah.moviemania.Movies.AsyncTask;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,6 +6,7 @@ import android.graphics.Matrix;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.anuntah.moviemania.MovieDatabase;
 import com.anuntah.moviemania.Movies.Constants.Constants;
 import com.anuntah.moviemania.Movies.Networking.Genre;
 import com.anuntah.moviemania.Movies.Networking.Movie;

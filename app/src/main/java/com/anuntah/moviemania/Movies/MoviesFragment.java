@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
@@ -27,11 +26,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anuntah.moviemania.MovieDatabase;
-import com.anuntah.moviemania.MoviePosterAsyncTask;
+import com.anuntah.moviemania.Movies.AsyncTask.MovieFragmentAsyncTask;
+import com.anuntah.moviemania.Movies.AsyncTask.MoviePosterAsyncTask;
 import com.anuntah.moviemania.Movies.Adapter.MoviesRecyclerAdapter;
 import com.anuntah.moviemania.Movies.Adapter.TrailerRecyclerAdapter;
 import com.anuntah.moviemania.Movies.Constants.Constants;
-import com.anuntah.moviemania.Movies.Networking.Genre;
 import com.anuntah.moviemania.Movies.Networking.Movie;
 import com.anuntah.moviemania.Movies.Networking.MovieAPI;
 import com.anuntah.moviemania.Movies.Networking.MovieDAO;
@@ -41,7 +40,6 @@ import com.anuntah.moviemania.Movies.Networking.TrailersTestClass;
 import com.anuntah.moviemania.R;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -246,11 +244,15 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
         poprecycler.setAdapter(moviesRecyclerAdapter);
         recyclerView.setAdapter(trailerRecyclerAdapter);
 
-        if(movieDatabase.getMoviesDAO().getMoviesList(Constants.pOPULARS)!=null){
-            popular_movie.addAll(movieDatabase.getMoviesDAO().getMoviesList(Constants.pOPULARS));
-            Log.d("bhavit",popular_movie.size()+"");
-            moviesRecyclerAdapter.notifyDataSetChanged();
-        }
+
+            MovieFragmentAsyncTask asyncTask=new MovieFragmentAsyncTask(movieDatabase,moviesRecyclerAdapter,popular_movie);
+            asyncTask.execute();
+
+
+//            popular_movie.addAll(movieDatabase.getMoviesDAO().getMoviesList(Constants.pOPULARS));
+//            Log.d("bhavit",popular_movie.size()+"");
+//            moviesRecyclerAdapter.notifyDataSetChanged();
+
 
 
         return view;
@@ -327,8 +329,8 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
                     for(Movie movie:movie_testclass.getResults()){
                         popular_movie.add(movie);
                     }
-                    MovieDAO movieDAO=movieDatabase.getMoviesDAO();
-                    movieDAO.insertMovie(popular_movie);
+//                    MovieDAO movieDAO=movieDatabase.getMoviesDAO();
+//                    movieDAO.insertMovie(popular_movie);
                 }
                 topratedRecyclerAdapter.notifyDataSetChanged();
             }

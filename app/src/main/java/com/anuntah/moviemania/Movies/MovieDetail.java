@@ -1,6 +1,8 @@
 package com.anuntah.moviemania.Movies;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -159,6 +161,7 @@ public class MovieDetail extends AppCompatActivity {
         }
 
         MovieDatabase movieDatabase;
+        int listpos;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -170,7 +173,7 @@ public class MovieDetail extends AppCompatActivity {
             Toast.makeText(getContext(),"called",Toast.LENGTH_SHORT).show();
             Bundle b;
             b=getArguments();
-            int listpos=b.getInt(Constants.POS);
+            listpos=b.getInt(Constants.POS);
             Log.d("list",String.valueOf(listpos));
             pos=b.getInt(ARG_SECTION_NUMBER);
             idlist=b.getIntegerArrayList(Constants.ID);
@@ -190,7 +193,7 @@ public class MovieDetail extends AppCompatActivity {
             Movie movie1=movieDatabase.getMoviesDAO().getMovies(idlist.get(listpos+pos-1));
 
             if(movie1!=null){
-                setUpMovie(movie1);
+                setUpMovie(movie1,0);
             }
 
             Call<Movie> call=movieAPI.getMovieDetail(idlist.get(listpos+pos-1));     //listpos+pos-1
@@ -204,11 +207,11 @@ public class MovieDetail extends AppCompatActivity {
             movie=response.body();
             if (movie != null) {
                 Log.d("movie", movie.getTitle());
-                setUpMovie(movie);
+                setUpMovie(movie,1);
             }
         }
 
-        private void setUpMovie(Movie movie) {
+        private void setUpMovie(Movie movie,int flag) {
             String genres = "";
             moviename.setText(movie.getTitle());
             releaseyear.setText(movie.getRelease_date());
@@ -217,12 +220,24 @@ public class MovieDetail extends AppCompatActivity {
                 genres = genres.concat(genre.getName() + ",");
             }
             genres = genres.substring(0, genres.length() - 1);
+            if(flag==1) {
+                movieDatabase.getMoviesDAO().getMovies(idlist.get(listpos + pos - 1)).setGenres(movie.getGenres());
+                movieDatabase.getMoviesDAO().getMovies(idlist.get(listpos + pos - 1)).setRuntime(movie.getRuntime());
+            }
             moviegenre.setText(genres);
 
             overview.setText(movie.getOverview());
-            Picasso.get().load(Constants.IMAGE_URI + "" + movie.getPoster_path()).resize(100, 140).into(poster);
+            if(movie.getImage()!=null&&flag==0) {
+                Log.d("bhavit","upload");
+                byte[] blob = movie.getImage();
+                Bitmap bmp = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+                bmp=bmp.copy(Bitmap.Config.ARGB_8888,true);
+                poster.setImageBitmap(bmp);
+                poster.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            }
+            if(flag==1)
+            Picasso.get().load(Constants.IMAGE_URI + "" + movie.getPoster_path()).into(poster);
             rating.setText(String.valueOf(movie.getVote_average()));
-            if(runtime!=null)
             runtime.setText(movie.getRuntime() + "mins");
             if(movie.getVideos()!=null)
                 trailers.addAll(movie.getVideos().getResults());
