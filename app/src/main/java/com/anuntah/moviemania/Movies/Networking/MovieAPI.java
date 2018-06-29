@@ -3,6 +3,7 @@ package com.anuntah.moviemania.Movies.Networking;
 import com.anuntah.moviemania.RequestToken;
 import com.anuntah.moviemania.SessionId;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -22,7 +23,7 @@ public interface MovieAPI {
     @GET("movie/now_playing?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&language=en-US&region=IN")
     Call<Movie_testclass> getNowShowing(@Query("page_no") int page);
 
-    @GET("movie/upcoming?api_key=4b4e67d5132e642d0f6bfc206d5e28d0")
+    @GET("movie/upcoming?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&region=US")
     Call<Movie_testclass> getUpcomingMovieList(@QueryMap Map<String, String> pop,@Query("page_no") int page);
 
     @GET("movie/{movie_id}/videos?api_key=4b4e67d5132e642d0f6bfc206d5e28d0")
@@ -31,9 +32,15 @@ public interface MovieAPI {
     @GET("movie/top_rated?api_key=4b4e67d5132e642d0f6bfc206d5e28d0")
     Call<Movie_testclass> getTopRated(@Query("page_no") int page);
 
+    @GET("https://api.themoviedb.org/3/genre/movie/list?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&language=en-US")
+    Call<GenreList> getGenres();
+
     @GET("authentication/token/new?api_key=4b4e67d5132e642d0f6bfc206d5e28d0")
     Call<RequestToken> getRequestToken();
     @GET("authentication/session/new?api_key=4b4e67d5132e642d0f6bfc206d5e28d0")
     Call<SessionId> getSessionId(@Query("request_token") String req);
+
+    @GET("https://api.themoviedb.org/3/discover/movie?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&language=en-US&page=15")
+    Call<Movie_testclass> getGenreMovie(@Query("with_genres") int id);
 
 }

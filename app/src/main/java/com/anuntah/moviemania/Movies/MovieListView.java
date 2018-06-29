@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.anuntah.moviemania.MovieDatabase;
 import com.anuntah.moviemania.Movies.Adapter.MovieListAdapter;
 import com.anuntah.moviemania.Movies.Constants.Constants;
 import com.anuntah.moviemania.Movies.Networking.Movie;
@@ -33,20 +34,23 @@ public class MovieListView extends AppCompatActivity {
     MovieAPI movieAPI=retrofit.create(MovieAPI.class);
 
     RecyclerView recyclerView;
+
     ArrayList<Movie> topratedmovies=new ArrayList<>();
-
     ArrayList<Movie> upcomingmovie=new ArrayList<>();
-
     ArrayList<Movie> intheatres=new ArrayList<>();
     ArrayList<Movie> popular_movie=new ArrayList<>();
+    ArrayList<Movie> genremovie=new ArrayList<>();
+    MovieDatabase movieDatabase;
 
-
-    MovieListAdapter upcomingRecyclerAdapter,popularRecyclerAdapter,intheatresRecyclerAdapter,topratedRecyclerAdapter;
+    int genreid;
+    MovieListAdapter upcomingRecyclerAdapter,popularRecyclerAdapter,intheatresRecyclerAdapter,topratedRecyclerAdapter,genreListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listview_movies);
+
+        movieDatabase=MovieDatabase.getInstance(this);
 
         recyclerView=findViewById(R.id.recyclerview);
 
@@ -56,10 +60,33 @@ public class MovieListView extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
 
         final Intent intent=getIntent();
-        String type=intent.getStringExtra(Constants.UPCOMING);
+        String type;
+        type=intent.getStringExtra(Constants.UPCOMING);
+        if(type==null)
+            type="";
+        genreid=intent.getIntExtra("id",-1);
+
+        if(genreid!=-1){
+            genreListAdapter=new MovieListAdapter(new MovieListAdapter.setOnMovieClickListner() {
+                @Override
+                public void OnMovieClicked(int pos) {
+                    ArrayList<Integer> idlist=new ArrayList<>();
+                    for(Movie movie:genremovie){
+                        idlist.add(movie.getId());
+                    }
+
+                    Intent intent1=new Intent(MovieListView.this,MovieDetail.class);
+                    intent1.putIntegerArrayListExtra(Constants.ID,idlist);
+                    intent1.putExtra(Constants.POS,pos);
+                    startActivity(intent1);
+                }
+            },this,genremovie);
+            recyclerView.setAdapter(genreListAdapter);
+            fetchGenreMovie();
+        }
+
         if(type.equals("upcoming")){
-            fetchUpcomingMovies();
-             upcomingRecyclerAdapter=new MovieListAdapter(new MovieListAdapter.setOnMovieClickListner() {
+            upcomingRecyclerAdapter=new MovieListAdapter(new MovieListAdapter.setOnMovieClickListner() {
                 @Override
                 public void OnMovieClicked(int pos) {
                     ArrayList<Integer> idlist=new ArrayList<>();
@@ -74,9 +101,13 @@ public class MovieListView extends AppCompatActivity {
                 }
             }, this, upcomingmovie);
              recyclerView.setAdapter(upcomingRecyclerAdapter);
+
+            upcomingmovie.addAll(movieDatabase.getMoviesDAO().getMoviesUpcomingIntheatres(Constants.UPCOMING));
+            upcomingRecyclerAdapter.notifyDataSetChanged();
+            fetchUpcomingMovies();
+
         }
         if(type.equals("popular")){
-            fetchPopularMovies();
 
             popularRecyclerAdapter=new MovieListAdapter(new MovieListAdapter.setOnMovieClickListner() {
                 @Override
@@ -93,9 +124,13 @@ public class MovieListView extends AppCompatActivity {
                 }
             }, this, popular_movie);
             recyclerView.setAdapter(popularRecyclerAdapter);
+
+            popular_movie.addAll(movieDatabase.getMoviesDAO().getMoviesList(Constants.pOPULARS,Constants.popularity));
+            popularRecyclerAdapter.notifyDataSetChanged();
+            fetchPopularMovies();
+
         }
         if(type.equals("intheatres")){
-            fetchNowShowingMovies();
 
             intheatresRecyclerAdapter=new MovieListAdapter(new MovieListAdapter.setOnMovieClickListner() {
                 @Override
@@ -112,6 +147,10 @@ public class MovieListView extends AppCompatActivity {
                 }
             }, this, intheatres);
             recyclerView.setAdapter(intheatresRecyclerAdapter);
+
+            fetchNowShowingMovies();
+            intheatres.addAll(movieDatabase.getMoviesDAO().getMoviesUpcomingIntheatres(Constants.INTHEATRES));
+            intheatresRecyclerAdapter.notifyDataSetChanged();
         }
         if(type.equals("toprated")){
             fetchTopratedMovies();
@@ -130,6 +169,9 @@ public class MovieListView extends AppCompatActivity {
                 }
             }, this, topratedmovies);
             recyclerView.setAdapter(topratedRecyclerAdapter);
+
+            topratedmovies.addAll(movieDatabase.getMoviesDAO().getMoviesUpcomingIntheatres(Constants.TOPRATED));
+            topratedRecyclerAdapter.notifyDataSetChanged();
         }
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -143,6 +185,29 @@ public class MovieListView extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void fetchGenreMovie() {
+        Call<Movie_testclass> call=movieAPI.getGenreMovie(genreid);
+        call.enqueue(new Callback<Movie_testclass>() {
+            @Override
+            public void onResponse(Call<Movie_testclass> call, Response<Movie_testclass> response) {
+                genremovie.clear();
+                Log.d("tag",response.toString());
+                Movie_testclass movie_testclass=response.body();
+                if (movie_testclass != null) {
+                    for(Movie movie:movie_testclass.getResults())
+                    genremovie.add(movie);
+                }
+                genreListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<Movie_testclass> call, Throwable t) {
+                Log.d("tag","error");
+
+            }
+        });
     }
 
     private void fetchTopratedMovies() {

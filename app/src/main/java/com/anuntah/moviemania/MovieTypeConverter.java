@@ -28,4 +28,21 @@ public class MovieTypeConverter {
         }
         return json;
     }
+
+    @TypeConverter
+    public static ArrayList<Integer> fromStringInt(String value){
+        Type type=new TypeToken<ArrayList<Integer>>(){}.getType();
+        Log.d("bhavit1",value);
+        return new Gson().fromJson(value,type);
+    }
+
+    @TypeConverter
+    public static String fromArrayListInt(ArrayList<Integer> genres){
+        Gson gson=new Gson();
+        String json= gson.toJson(genres,new TypeToken<ArrayList<Integer>>(){}.getType());
+        if(genres==null){
+            Log.d("bhavit1","nill");
+        }
+        return json;
+    }
 }

@@ -8,12 +8,14 @@ import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
+import com.anuntah.moviemania.Movies.Networking.Genre;
+import com.anuntah.moviemania.Movies.Networking.GenreDAO;
 import com.anuntah.moviemania.Movies.Networking.Movie;
 import com.anuntah.moviemania.Movies.Networking.MovieDAO;
 import com.anuntah.moviemania.Movies.Networking.Trailers;
 import com.anuntah.moviemania.Movies.Networking.TrailersDAO;
 
-@Database(entities = {Movie.class, Trailers.class},version = 1 )
+@Database(entities = {Movie.class, Trailers.class, Genre.class},version = 1 )
 @TypeConverters({MovieTypeConverter.class})
 
 public abstract class MovieDatabase extends RoomDatabase {
@@ -32,4 +34,5 @@ public abstract class MovieDatabase extends RoomDatabase {
 
     public abstract MovieDAO getMoviesDAO();
     public abstract TrailersDAO getTrailersDAO();
+    public abstract GenreDAO genreDAO();
 }

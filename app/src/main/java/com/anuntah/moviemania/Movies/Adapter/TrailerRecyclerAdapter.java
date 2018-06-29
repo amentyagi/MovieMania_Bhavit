@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.anuntah.moviemania.Movies.Networking.Movie;
 import com.anuntah.moviemania.Movies.Constants.Constants;
@@ -73,6 +74,9 @@ public class TrailerRecyclerAdapter extends RecyclerView.Adapter<TrailerRecycler
     @Override
     public void onBindViewHolder(final TrailerViewHolder holder, final int position) {
 
+//        Toast.makeText(context, movies.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+
+
         holder.ytThubnailView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,36 +106,38 @@ public class TrailerRecyclerAdapter extends RecyclerView.Adapter<TrailerRecycler
         });
 
 
-        if (readyForLoadingYoutubeThumbnail) {
-            Log.d("TAG", "initializing for youtube thumbnail view...");
-            readyForLoadingYoutubeThumbnail = false;
-            holder.ytThubnailView.initialize(Constants.Youtube_API_KEY, new YouTubeThumbnailView.OnInitializedListener() {
-                @Override
-                public void onInitializationSuccess(final YouTubeThumbnailView youTubeThumbnailView, final YouTubeThumbnailLoader youTubeThumbnailLoader) {
+        if(movies.get(position).getTrailerid()!=null) {
+            if (readyForLoadingYoutubeThumbnail) {
+                Log.d("TAG", "initializing for youtube thumbnail view...");
+                readyForLoadingYoutubeThumbnail = false;
+                holder.ytThubnailView.initialize(Constants.Youtube_API_KEY, new YouTubeThumbnailView.OnInitializedListener() {
+                    @Override
+                    public void onInitializationSuccess(final YouTubeThumbnailView youTubeThumbnailView, final YouTubeThumbnailLoader youTubeThumbnailLoader) {
 
-                    Picasso.get().load(Constants.YTIMAGE_URI+""+movies.get(position).getTrailerid()+"/maxresdefault.jpg").fit().into(holder.ytThubnailView);
-                    youTubeThumbnailLoader.setOnThumbnailLoadedListener(new YouTubeThumbnailLoader.OnThumbnailLoadedListener() {
+                        Picasso.get().load(Constants.YTIMAGE_URI + "" + movies.get(position).getTrailerid() + "/maxresdefault.jpg").fit().into(holder.ytThubnailView);
+                        youTubeThumbnailLoader.setOnThumbnailLoadedListener(new YouTubeThumbnailLoader.OnThumbnailLoadedListener() {
 
-                        @Override
-                        public void onThumbnailLoaded(YouTubeThumbnailView childYouTubeThumbnailView, String s) {
-                            youTubeThumbnailLoader.release(); // spy ga memory lick
-                        }
+                            @Override
+                            public void onThumbnailLoaded(YouTubeThumbnailView childYouTubeThumbnailView, String s) {
+                                youTubeThumbnailLoader.release(); // spy ga memory lick
+                            }
 
-                        @Override
-                        public void onThumbnailError(YouTubeThumbnailView youTubeThumbnailView, YouTubeThumbnailLoader.ErrorReason errorReason) {
-                            youTubeThumbnailLoader.release(); // spy ga memory lick
-                        }
-                    });
+                            @Override
+                            public void onThumbnailError(YouTubeThumbnailView youTubeThumbnailView, YouTubeThumbnailLoader.ErrorReason errorReason) {
+                                youTubeThumbnailLoader.release(); // spy ga memory lick
+                            }
+                        });
 
-                    readyForLoadingYoutubeThumbnail = true;
-                }
+                        readyForLoadingYoutubeThumbnail = true;
+                    }
 
-                @Override
-                public void onInitializationFailure(YouTubeThumbnailView youTubeThumbnailView, YouTubeInitializationResult youTubeInitializationResult) {
-                    //do nohing.. ada error, tambahin method ini jalan, error-nya lupa...
-                    readyForLoadingYoutubeThumbnail = true;
-                }
-            });
+                    @Override
+                    public void onInitializationFailure(YouTubeThumbnailView youTubeThumbnailView, YouTubeInitializationResult youTubeInitializationResult) {
+                        //do nohing.. ada error, tambahin method ini jalan, error-nya lupa...
+                        readyForLoadingYoutubeThumbnail = true;
+                    }
+                });
+            }
         }
         Picasso.get().load(Constants.IMAGE_URI+""+movies.get(position).getPoster_path()).resize(100,130).into(holder.poster);
         holder.title.setText(movies.get(position).getTitle());
@@ -163,6 +169,7 @@ public class TrailerRecyclerAdapter extends RecyclerView.Adapter<TrailerRecycler
                 genre.append(",");
               }
             }
+            if(genre.length()!=0)
         genre.deleteCharAt(genre.length()-1);
         holder.genre.setText(genre.toString());
     }

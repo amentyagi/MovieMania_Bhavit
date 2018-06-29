@@ -24,7 +24,6 @@ public class Movie  {
     private float vote_average;
     private double popularity;
     private String original_language;
-    @Ignore
     private ArrayList<Integer> genre_ids;
     private String trailerid;
     private int runtime;

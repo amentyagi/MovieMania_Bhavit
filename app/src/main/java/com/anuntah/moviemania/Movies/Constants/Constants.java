@@ -23,6 +23,10 @@ public class Constants {
     public static final String UPCOMING="upcoming";
     public static final String INTHEATRES="intheatres";
     public static final String pOPULARS="popular";
+    public static final String popularity="popularity";
+    public static final String vote_average="vote_average";
+    public static final String release_date="release_date";
+
 
 
 

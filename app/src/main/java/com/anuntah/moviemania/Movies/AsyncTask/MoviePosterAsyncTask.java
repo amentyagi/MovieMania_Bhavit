@@ -22,9 +22,11 @@ public class MoviePosterAsyncTask extends AsyncTask<Movie,String,String> {
 
 
     private MovieDatabase movieDatabase;
+    private String Tag;
 
-    public MoviePosterAsyncTask(MovieDatabase movieDatabase) {
+    public MoviePosterAsyncTask(MovieDatabase movieDatabase,String Tag) {
         this.movieDatabase = movieDatabase;
+        this.Tag=Tag;
     }
 
     @Override
@@ -32,7 +34,16 @@ public class MoviePosterAsyncTask extends AsyncTask<Movie,String,String> {
 
         ArrayList<Movie> movieArrayList=new ArrayList<>();
         for(Movie movie:movies){
-            movie.setTag(Constants.pOPULARS);
+            switch(Tag) {
+                case Constants.pOPULARS:movie.setTag(Constants.pOPULARS);
+                break;
+                case Constants.UPCOMING:movie.setTag(Constants.UPCOMING);
+                break;
+                case Constants.INTHEATRES:movie.setTag(Constants.INTHEATRES);
+                break;
+                case Constants.TOPRATED:movie.setTag(Constants.TOPRATED);
+
+            }
             movie.setGenres(idToGenre(movie.getGenre_ids()));
             try {
                 Bitmap bitmap=Picasso.get().load(Constants.IMAGE_URI+""+movie.getPoster_path()).get();

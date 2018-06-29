@@ -49,91 +49,100 @@
                                             android:textStyle="bold"
                                             android:layout_alignBaseline="@+id/genres_text"/>
 
-                                        <HorizontalScrollView
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent">
-                                                <LinearLayout
-                                                    android:paddingBottom="10dp"
-                                                    android:layout_width="match_parent"
-                                                    android:layout_height="match_parent"
-                                                    android:orientation="horizontal"
-                                                    android:layout_marginTop="15dp">
-                                                        <ImageView
-                                                            android:id="@+id/action"
-                                                            android:layout_width="wrap_content"
-                                                            android:layout_height="wrap_content"
-                                                            android:src="@drawable/action"
-                                                            android:layout_marginTop="30dp"
-                                                            android:layout_marginLeft="15dp"/>
-                                                        <ImageView
-                                                            android:id="@+id/adventure"
-                                                            android:layout_width="wrap_content"
-                                                            android:layout_height="wrap_content"
-                                                            android:src="@drawable/adventure"
-                                                            android:layout_marginTop="30dp"
-                                                            android:layout_marginLeft="15dp"/>
-                                                        <ImageView
-                                                            android:id="@+id/animation"
-                                                            android:layout_width="wrap_content"
-                                                            android:layout_height="wrap_content"
-                                                            android:src="@drawable/animation"
-                                                            android:layout_marginTop="30dp"
-                                                            android:layout_marginLeft="15dp"/>
-                                                        <ImageView
-                                                            android:id="@+id/comedy"
-                                                            android:layout_width="wrap_content"
-                                                            android:layout_height="wrap_content"
-                                                            android:src="@drawable/comedy"
-                                                            android:layout_marginTop="30dp"
-                                                            android:layout_marginLeft="15dp"/>
-                                                        <ImageView
-                                                            android:id="@+id/drama"
-                                                            android:layout_width="wrap_content"
-                                                            android:layout_height="wrap_content"
-                                                            android:src="@drawable/drama"
-                                                            android:layout_marginTop="30dp"
-                                                            android:layout_marginLeft="15dp"/>
-                                                        <ImageView
-                                                            android:id="@+id/fantasy"
-                                                            android:layout_width="wrap_content"
-                                                            android:layout_height="wrap_content"
-                                                            android:src="@drawable/fantasy"
-                                                            android:layout_marginTop="30dp"
-                                                            android:layout_marginLeft="15dp"/>
-                                                        <ImageView
-                                                            android:id="@+id/horror"
-                                                            android:layout_width="wrap_content"
-                                                            android:layout_height="wrap_content"
-                                                            android:src="@drawable/horror"
-                                                            android:layout_marginTop="30dp"
-                                                            android:layout_marginLeft="15dp"/>
-                                                        <ImageView
-                                                            android:id="@+id/romance"
-                                                            android:layout_width="wrap_content"
-                                                            android:layout_height="wrap_content"
-                                                            android:src="@drawable/romance"
-                                                            android:layout_marginTop="30dp"
-                                                            android:layout_marginLeft="15dp"/>
-                                                        <ImageView
-                                                            android:id="@+id/scifi"
-                                                            android:layout_width="wrap_content"
-                                                            android:layout_height="wrap_content"
-                                                            android:src="@drawable/scifi"
-                                                            android:layout_marginTop="30dp"
-                                                            android:layout_marginLeft="15dp"/>
-                                                        <ImageView
-                                                            android:id="@+id/thriller"
-                                                            android:layout_width="wrap_content"
-                                                            android:layout_height="wrap_content"
-                                                            android:src="@drawable/thriller"
-                                                            android:layout_marginTop="30dp"
-                                                            android:layout_marginLeft="15dp"/>
-                                                        -->
+                                        <!--<HorizontalScrollView-->
+                                            <!--android:layout_width="match_parent"-->
+                                            <!--android:layout_height="match_parent">-->
+                                                <!--<LinearLayout-->
+                                                    <!--android:paddingBottom="10dp"-->
+                                                    <!--android:layout_width="match_parent"-->
+                                                    <!--android:layout_height="match_parent"-->
+                                                    <!--android:orientation="horizontal"-->
+                                                    <!--android:layout_marginTop="15dp">-->
+                                                        <!--<ImageView-->
+                                                            <!--android:id="@+id/action"-->
+                                                            <!--android:layout_width="wrap_content"-->
+                                                            <!--android:layout_height="wrap_content"-->
+                                                            <!--android:src="@drawable/action"-->
+                                                            <!--android:layout_marginTop="30dp"-->
+                                                            <!--android:layout_marginLeft="15dp"/>-->
+                                                        <!--<ImageView-->
+                                                            <!--android:id="@+id/adventure"-->
+                                                            <!--android:layout_width="wrap_content"-->
+                                                            <!--android:layout_height="wrap_content"-->
+                                                            <!--android:src="@drawable/adventure"-->
+                                                            <!--android:layout_marginTop="30dp"-->
+                                                            <!--android:layout_marginLeft="15dp"/>-->
+                                                        <!--<ImageView-->
+                                                            <!--android:id="@+id/animation"-->
+                                                            <!--android:layout_width="wrap_content"-->
+                                                            <!--android:layout_height="wrap_content"-->
+                                                            <!--android:src="@drawable/animation"-->
+                                                            <!--android:layout_marginTop="30dp"-->
+                                                            <!--android:layout_marginLeft="15dp"/>-->
+                                                        <!--<ImageView-->
+                                                            <!--android:id="@+id/comedy"-->
+                                                            <!--android:layout_width="wrap_content"-->
+                                                            <!--android:layout_height="wrap_content"-->
+                                                            <!--android:src="@drawable/comedy"-->
+                                                            <!--android:layout_marginTop="30dp"-->
+                                                            <!--android:layout_marginLeft="15dp"/>-->
+                                                        <!--<ImageView-->
+                                                            <!--android:id="@+id/drama"-->
+                                                            <!--android:layout_width="wrap_content"-->
+                                                            <!--android:layout_height="wrap_content"-->
+                                                            <!--android:src="@drawable/drama"-->
+                                                            <!--android:layout_marginTop="30dp"-->
+                                                            <!--android:layout_marginLeft="15dp"/>-->
+                                                        <!--<ImageView-->
+                                                            <!--android:id="@+id/fantasy"-->
+                                                            <!--android:layout_width="wrap_content"-->
+                                                            <!--android:layout_height="wrap_content"-->
+                                                            <!--android:src="@drawable/fantasy"-->
+                                                            <!--android:layout_marginTop="30dp"-->
+                                                            <!--android:layout_marginLeft="15dp"/>-->
+                                                        <!--<ImageView-->
+                                                            <!--android:id="@+id/horror"-->
+                                                            <!--android:layout_width="wrap_content"-->
+                                                            <!--android:layout_height="wrap_content"-->
+                                                            <!--android:src="@drawable/horror"-->
+                                                            <!--android:layout_marginTop="30dp"-->
+                                                            <!--android:layout_marginLeft="15dp"/>-->
+                                                        <!--<ImageView-->
+                                                            <!--android:id="@+id/romance"-->
+                                                            <!--android:layout_width="wrap_content"-->
+                                                            <!--android:layout_height="wrap_content"-->
+                                                            <!--android:src="@drawable/romance"-->
+                                                            <!--android:layout_marginTop="30dp"-->
+                                                            <!--android:layout_marginLeft="15dp"/>-->
+                                                        <!--<ImageView-->
+                                                            <!--android:id="@+id/scifi"-->
+                                                            <!--android:layout_width="wrap_content"-->
+                                                            <!--android:layout_height="wrap_content"-->
+                                                            <!--android:src="@drawable/scifi"-->
+                                                            <!--android:layout_marginTop="30dp"-->
+                                                            <!--android:layout_marginLeft="15dp"/>-->
+                                                        <!--<ImageView-->
+                                                            <!--android:id="@+id/thriller"-->
+                                                            <!--android:layout_width="wrap_content"-->
+                                                            <!--android:layout_height="wrap_content"-->
+                                                            <!--android:src="@drawable/thriller"-->
+                                                            <!--android:layout_marginTop="30dp"-->
+                                                            <!--android:layout_marginLeft="15dp"/>-->
+                                                        <!--&ndash;&gt;-->
 
-                                                </LinearLayout>
-                                        </HorizontalScrollView>
+                                                <!--</LinearLayout>-->
+                                        <!--</HorizontalScrollView>-->
 
                                 </RelativeLayout>
+
+                                <android.support.v7.widget.RecyclerView
+                                    android:id="@+id/recyclerGenres"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="115dp"
+                                    android:orientation="horizontal"
+                                    android:background="@color/colorPrimary"
+                                    />
+
 
                         </LinearLayout>
                         <LinearLayout
@@ -156,7 +165,7 @@
                                             android:textColor="@android:color/white"
                                             android:textStyle="bold" />
                                         <TextView
-                                            android:id="@+id/in_theatre_text_seeall"
+                                            android:id="@+id/upcoming_see_all"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_alignParentEnd="true"
@@ -170,7 +179,7 @@
                                 </RelativeLayout>
 
                                 <android.support.v7.widget.RecyclerView
-                                    android:id="@+id/recyclerInTheatre"
+                                    android:id="@+id/recyclerUpcoming"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal"
@@ -248,7 +257,7 @@
                                             android:textColor="@android:color/white"
                                             android:textStyle="bold" />
                                         <TextView
-                                            android:id="@+id/upcoming_see_all"
+                                            android:id="@+id/in_theatre_text_seeall"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_alignParentEnd="true"
@@ -266,7 +275,7 @@
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal"
                                     android:background="@color/colorPrimary"
-                                    android:id="@+id/recyclerUpcoming"/>
+                                    android:id="@+id/recyclerInTheatre"/>
 
 
                         </LinearLayout>

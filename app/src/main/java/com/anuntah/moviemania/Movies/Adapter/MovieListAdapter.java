@@ -59,34 +59,38 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         });
 
 
+        StringBuffer genre=new StringBuffer("");
         ArrayList<Integer> genreid=new ArrayList<>();
-        genreid.addAll(movies.get(position).getGenre_ids());
-        StringBuffer genre=new StringBuffer();
-        for(int j=0;j<genreid.size();j++){
+        if(movies.get(position).getGenre_ids()!=null) {
+            genreid.addAll(movies.get(position).getGenre_ids());
+            genre = new StringBuffer();
+            for (int j = 0; j < genreid.size(); j++) {
 
                 genre.append(genrematcher(genreid.get(j)));
                 genre.append(",");
 
+            }
+            if(genre.length()!=0)
+            genre.deleteCharAt(genre.length() - 1);
         }
-        genre.deleteCharAt(genre.length()-1);
         holder.moviegenre.setText(genre.toString());
 
-        StringBuffer s=new StringBuffer(movies.get(position).getRelease_date());
-        String[] s1=s.toString().split("-");
-        String s2="";
-        s2=s2.concat(s1[2]);
-        s2=s2.concat(" ");
-        s2=s2.concat(s1[1]);
-        s2=s2.concat(" ");
-        s2=s2.concat(s1[0]);
-        Log.d("bhavit",s2);
+        if(!movies.get(position).getRelease_date().equals("")) {
+            StringBuffer s = new StringBuffer(movies.get(position).getRelease_date());
+            String[] s1 = s.toString().split("-");
+            String s2 = "";
+            s2 = s2.concat(s1[2]);
+            s2 = s2.concat(" ");
+            s2 = s2.concat(s1[1]);
+            s2 = s2.concat(" ");
+            s2 = s2.concat(s1[0]);
+            Log.d("bhavit", s2);
 
 
-
-        String date=setDate(s1[1]);
-        if(!date.equals("0"))
-            holder.releasedate.setText(s1[2].concat(" "+date).concat(" "+s1[0]));
-
+            String date = setDate(s1[1]);
+            if (!date.equals("0"))
+                holder.releasedate.setText(s1[2].concat(" " + date).concat(" " + s1[0]));
+        }
     }
 
     private String setDate(String s) {

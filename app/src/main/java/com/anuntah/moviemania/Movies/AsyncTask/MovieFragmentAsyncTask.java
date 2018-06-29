@@ -27,9 +27,9 @@ public class MovieFragmentAsyncTask extends AsyncTask<Void,Void,ArrayList<Movie>
     @Override
     protected ArrayList<Movie> doInBackground(Void... voids) {
 
-        if(movieDatabase.getMoviesDAO().getMoviesList(Constants.pOPULARS)!=null) {
+        if(movieDatabase.getMoviesDAO().getMoviesList1(Constants.pOPULARS)!=null) {
 
-            popularmovie.addAll(movieDatabase.getMoviesDAO().getMoviesList(Constants.pOPULARS));
+            popularmovie.addAll(movieDatabase.getMoviesDAO().getMoviesList1(Constants.pOPULARS));
         }
         return popularmovie;
     }

@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.anuntah.moviemania.MovieDatabase;
 import com.anuntah.moviemania.Movies.Adapter.VideosPagerAdapter;
+import com.anuntah.moviemania.Movies.AsyncTask.MovieDetailAsyncTask;
 import com.anuntah.moviemania.Movies.Constants.Constants;
 import com.anuntah.moviemania.Movies.Networking.Genre;
 import com.anuntah.moviemania.Movies.Networking.Movie;
@@ -33,6 +34,7 @@ import com.anuntah.moviemania.Movies.Networking.Trailers;
 import com.anuntah.moviemania.R;
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -214,19 +216,21 @@ public class MovieDetail extends AppCompatActivity {
         private void setUpMovie(Movie movie,int flag) {
             String genres = "";
             moviename.setText(movie.getTitle());
+
             releaseyear.setText(movie.getRelease_date());
 
             for (Genre genre : movie.getGenres()) {
                 genres = genres.concat(genre.getName() + ",");
             }
             genres = genres.substring(0, genres.length() - 1);
-            if(flag==1) {
-                movieDatabase.getMoviesDAO().getMovies(idlist.get(listpos + pos - 1)).setGenres(movie.getGenres());
-                movieDatabase.getMoviesDAO().getMovies(idlist.get(listpos + pos - 1)).setRuntime(movie.getRuntime());
-            }
             moviegenre.setText(genres);
 
+            if(flag==1) {
+                new MovieDetailAsyncTask(movieDatabase,idlist,listpos,pos).execute(movie);
+            }
+
             overview.setText(movie.getOverview());
+
             if(movie.getImage()!=null&&flag==0) {
                 Log.d("bhavit","upload");
                 byte[] blob = movie.getImage();
@@ -235,10 +239,14 @@ public class MovieDetail extends AppCompatActivity {
                 poster.setImageBitmap(bmp);
                 poster.setScaleType(ImageView.ScaleType.CENTER_CROP);
             }
+
             if(flag==1)
             Picasso.get().load(Constants.IMAGE_URI + "" + movie.getPoster_path()).into(poster);
+
             rating.setText(String.valueOf(movie.getVote_average()));
+
             runtime.setText(movie.getRuntime() + "mins");
+
             if(movie.getVideos()!=null)
                 trailers.addAll(movie.getVideos().getResults());
             pagerAdapter.notifyDataSetChanged();
