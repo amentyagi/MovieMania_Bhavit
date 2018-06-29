@@ -239,8 +239,11 @@ public class MovieListView extends AppCompatActivity {
         call.enqueue(new Callback<Movie_testclass>() {
             @Override
             public void onResponse(Call<Movie_testclass> call, Response<Movie_testclass> response) {
+                intheatres.clear();
                 Movie_testclass testclass=response.body();
-                intheatres.addAll(testclass.getResults());
+                if (testclass != null) {
+                    intheatres.addAll(testclass.getResults());
+                }
                 intheatresRecyclerAdapter.notifyDataSetChanged();
             }
 
@@ -263,7 +266,8 @@ public class MovieListView extends AppCompatActivity {
                 Log.d("result",response.toString());
                 Movie_testclass movie_testclass=response.body();
                 if (movie_testclass != null) {
-                    popular_movie.addAll(movie_testclass.getResults());
+                    for(Movie movie:movie_testclass.getResults())
+                        popular_movie.add(movie);
                 }
                 popularRecyclerAdapter.notifyDataSetChanged();
 //                Toast.makeText(getContext(),popular_movie.size()+"",Toast.LENGTH_SHORT).show();
@@ -289,7 +293,11 @@ public class MovieListView extends AppCompatActivity {
             public void onResponse(Call<Movie_testclass> call, Response<Movie_testclass> response) {
                 Movie_testclass testclass=response.body();
                 Log.d("yes",response.toString());
-                upcomingmovie.addAll(testclass.getResults());
+                upcomingmovie.clear();
+                if (testclass != null) {
+                    for(Movie movie:testclass.getResults())
+                        upcomingmovie.add(movie);
+                }
                 upcomingRecyclerAdapter.notifyDataSetChanged();
             }
 

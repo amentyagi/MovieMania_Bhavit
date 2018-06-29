@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.anuntah.moviemania.Movies.Networking.Movie;
 import com.anuntah.moviemania.Movies.Constants.Constants;
 import com.anuntah.moviemania.R;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -43,14 +45,26 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     }
 
     @Override
-    public void onBindViewHolder(final MovieListAdapter.MovieHolder holder, int position) {
+    public void onBindViewHolder(final MovieListAdapter.MovieHolder holder, final int position) {
 
 
         holder.moviename.setText(movies.get(position).getTitle());
         holder.moviegenre.setText(movies.get(position).getTitle());
         holder.ratingBar.setRating(movies.get(position).getVote_average()/2);
         holder.ratings.setText(movies.get(position).getVote_average()/2+"");
-        Picasso.get().load(Constants.IMAGE_URI+""+movies.get(position).getPoster_path()).into(holder.poster);
+        Picasso.get().load(Constants.IMAGE_URI+"/w154"+movies.get(position).getPoster_path()).networkPolicy(NetworkPolicy.OFFLINE).into(holder.poster, new Callback() {
+            @Override
+            public void onSuccess() {
+                Log.d("OFFLINE",Constants.IMAGE_URI+"w154"+movies.get(position).getPoster_path());
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Picasso.get().load(Constants.IMAGE_URI+"/w154"+movies.get(position).getPoster_path()).into(holder.poster);
+
+            }
+        });
+
         holder.poster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

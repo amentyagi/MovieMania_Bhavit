@@ -19,6 +19,8 @@ import com.anuntah.moviemania.R;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -108,13 +110,35 @@ public class TrailerRecyclerAdapter extends RecyclerView.Adapter<TrailerRecycler
 
         if(movies.get(position).getTrailerid()!=null) {
             if (readyForLoadingYoutubeThumbnail) {
-                Log.d("TAG", "initializing for youtube thumbnail view...");
                 readyForLoadingYoutubeThumbnail = false;
                 holder.ytThubnailView.initialize(Constants.Youtube_API_KEY, new YouTubeThumbnailView.OnInitializedListener() {
                     @Override
                     public void onInitializationSuccess(final YouTubeThumbnailView youTubeThumbnailView, final YouTubeThumbnailLoader youTubeThumbnailLoader) {
 
-                        Picasso.get().load(Constants.YTIMAGE_URI + "" + movies.get(position).getTrailerid() + "/maxresdefault.jpg").fit().into(holder.ytThubnailView);
+                        Picasso.get().load(Constants.YTIMAGE_URI + "" + movies.get(position).getTrailerid() + "/maxresdefault.jpg").networkPolicy(NetworkPolicy.OFFLINE).fit().into(holder.ytThubnailView, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+
+                                Picasso.get().load(Constants.YTIMAGE_URI + "" + movies.get(position).getTrailerid() + "/maxresdefault.jpg").fit().into(holder.ytThubnailView, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+                                    }
+
+                                    @Override
+                                    public void onError(Exception e) {
+                                        Log.d("offlineee",Constants.YTIMAGE_URI + "" + movies.get(position).getTrailerid() + "/0.jpg");
+                                        Picasso.get().load(Constants.YTIMAGE_URI + "" + movies.get(position).getTrailerid() + "/0.jpg").fit().centerCrop().into(holder.ytThubnailView);
+
+                                    }
+                                });
+                            }
+                        });
+
+
                         youTubeThumbnailLoader.setOnThumbnailLoadedListener(new YouTubeThumbnailLoader.OnThumbnailLoadedListener() {
 
                             @Override
@@ -139,7 +163,18 @@ public class TrailerRecyclerAdapter extends RecyclerView.Adapter<TrailerRecycler
                 });
             }
         }
-        Picasso.get().load(Constants.IMAGE_URI+""+movies.get(position).getPoster_path()).resize(100,130).into(holder.poster);
+        Picasso.get().load(Constants.IMAGE_URI+"/w185"+movies.get(position).getPoster_path()).networkPolicy(NetworkPolicy.OFFLINE).fit().into(holder.poster, new Callback() {
+            @Override
+            public void onSuccess() {
+                Log.d("OFFLINE",Constants.IMAGE_URI+"w154"+movies.get(position).getPoster_path());
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Picasso.get().load(Constants.IMAGE_URI+"/w185"+movies.get(position).getPoster_path()).fit().into(holder.poster);
+
+            }
+        });
         holder.title.setText(movies.get(position).getTitle());
         StringBuffer s=new StringBuffer(movies.get(position).getRelease_date());
         String[] s1=s.toString().split("-");

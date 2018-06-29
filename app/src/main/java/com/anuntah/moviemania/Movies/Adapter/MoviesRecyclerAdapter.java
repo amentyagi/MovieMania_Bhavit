@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.anuntah.moviemania.Movies.Networking.Movie;
 import com.anuntah.moviemania.Movies.Constants.Constants;
 import com.anuntah.moviemania.R;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
     }
 
     @Override
-    public void onBindViewHolder(final MovieViewHolder holder, int position) {
+    public void onBindViewHolder(final MovieViewHolder holder, final int position) {
 //        Toast.makeText(context,position+"",Toast.LENGTH_SHORT).show();
         holder.movie_poster.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,14 +56,27 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
         holder.textView.setText(String.valueOf(movies.get(position).getVote_average()));
         holder.movie_name.setText(movies.get(position).getTitle());
         holder.movie_year.setText(movies.get(position).getRelease_date());
-        if(movies.get(position).getImage()!=null) {
-            Log.d("bhavit","upload");
-            byte[] blob = movies.get(position).getImage();
-            Bitmap bmp = BitmapFactory.decodeByteArray(blob, 0, blob.length);
-            ImageView image = new ImageView(context);
-            image.setImageBitmap(bmp);
-        }
-        Picasso.get().load(Constants.IMAGE_URI+""+movies.get(position).getPoster_path()).into(holder.movie_poster);
+//        if(movies.get(position).getImage()!=null) {
+//            Log.d("bhavit","upload");
+//            byte[] blob = movies.get(position).getImage();
+//            Bitmap bmp = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+//            ImageView image = new ImageView(context);
+//            image.setImageBitmap(bmp);
+//        }
+        //Picasso.get().load(Constants.IMAGE_URI+""+movies.get(position).getPoster_path()).into(holder.movie_poster);
+
+        Picasso.get().load(Constants.IMAGE_URI+"/w342"+movies.get(position).getPoster_path()).networkPolicy(NetworkPolicy.OFFLINE).into(holder.movie_poster, new Callback() {
+            @Override
+            public void onSuccess() {
+                Log.d("offline",Constants.IMAGE_URI+""+movies.get(position).getPoster_path());
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Picasso.get().load(Constants.IMAGE_URI+"/w342"+movies.get(position).getPoster_path()).into(holder.movie_poster);
+
+            }
+        });
     }
 
     @Override

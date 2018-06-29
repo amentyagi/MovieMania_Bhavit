@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.anuntah.moviemania.Movies.Constants.Constants;
 import com.anuntah.moviemania.R;
 import com.anuntah.moviemania.Movies.Networking.Trailers;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class VideosPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup view, final int position) {
         LayoutInflater inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View myImageLayout = inflater.inflate(R.layout.slide, view, false);
-         ImageView ytthumbnail=myImageLayout
+         final ImageView ytthumbnail=myImageLayout
                 .findViewById(R.id.ytthumb);
 
          ytthumbnail.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +60,17 @@ public class VideosPagerAdapter extends PagerAdapter {
                  listener.OnVideoClicked(position);
              }
          });
-        Picasso.get().load(Constants.YTIMAGE_URI+""+trailers.get(position).getKey()+"/maxresdefault.jpg").fit().into(ytthumbnail);
+        Picasso.get().load(Constants.YTIMAGE_URI+""+trailers.get(position).getKey()+"/maxresdefault.jpg").fit().into(ytthumbnail, new Callback() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Picasso.get().load(Constants.YTIMAGE_URI+""+trailers.get(position).getKey()+"/0.jpg").fit().into(ytthumbnail);
+            }
+        });
         view.addView(myImageLayout, 0);
         return myImageLayout;
     }

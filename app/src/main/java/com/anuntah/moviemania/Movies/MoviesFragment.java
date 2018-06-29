@@ -41,6 +41,7 @@ import com.anuntah.moviemania.Movies.Networking.Movie_testclass;
 import com.anuntah.moviemania.Movies.Networking.Trailers;
 import com.anuntah.moviemania.Movies.Networking.TrailersTestClass;
 import com.anuntah.moviemania.R;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -220,7 +221,7 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
 
             @SuppressLint("ClickableViewAccessibility")
             @Override
-            public void OnTouchClicked(View v, final MotionEvent e,int pos) {
+            public void OnTouchClicked(View v, final MotionEvent e, final int pos) {
                 if(e.getAction()==MotionEvent.ACTION_UP){
                     if(dialog!=null)
                         dialog.dismiss();
@@ -228,7 +229,7 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
                 if(e.getAction()==MotionEvent.ACTION_DOWN){
                     LayoutInflater inflater=(LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     View view1=inflater.inflate(R.layout.preview_poster,container,false);
-                    ImageView imageView=view1.findViewById(R.id.poster_view);
+                    final ImageView imageView=view1.findViewById(R.id.poster_view);
                     imageView.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
@@ -236,7 +237,17 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
                             return true;
                         }
                     });
-                    Picasso.get().load(Constants.IMAGE_URI+""+intheatres.get(pos).getPoster_path()).resize(800,1200).into(imageView);
+                    Picasso.get().load(Constants.IMAGE_URI + "w500" + intheatres.get(pos).getPoster_path()).networkPolicy(NetworkPolicy.OFFLINE).into(imageView, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            Picasso.get().load(Constants.IMAGE_URI + "w500" + intheatres.get(pos).getPoster_path()).resize(800, 1200).into(imageView);
+                        }
+                    });
                     dialog=new Dialog(getContext());
                     dialog.setCanceledOnTouchOutside(true);
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -582,7 +593,7 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    public void OnTouchClicked(View v, MotionEvent e, int pos) {
+    public void OnTouchClicked(View v, MotionEvent e, final int pos) {
         if(e.getAction()==MotionEvent.ACTION_UP){
             if(dialog!=null)
                 dialog.dismiss();
@@ -590,7 +601,7 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
         if(e.getAction()==MotionEvent.ACTION_DOWN) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view1 = inflater.inflate(R.layout.preview_poster, viewGroup, false);
-            ImageView imageView = view1.findViewById(R.id.poster_view);
+            final ImageView imageView = view1.findViewById(R.id.poster_view);
             imageView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -598,7 +609,18 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
                     return true;
                 }
             });
-            Picasso.get().load(Constants.IMAGE_URI + "" + upcomingmovielist.get(pos).getPoster_path()).resize(800, 1200).into(imageView);
+            Picasso.get().load(Constants.IMAGE_URI + "w500" + upcomingmovielist.get(pos).getPoster_path()).networkPolicy(NetworkPolicy.OFFLINE).into(imageView, new com.squareup.picasso.Callback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Picasso.get().load(Constants.IMAGE_URI + "w500" + upcomingmovielist.get(pos).getPoster_path()).resize(800, 1200).into(imageView);
+                }
+            });
+
             dialog = new Dialog(getContext());
             dialog.setCanceledOnTouchOutside(true);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

@@ -23,8 +23,10 @@ public class MovieDetailAsyncTask extends AsyncTask<Movie,Void, Void> {
     @Override
     protected Void doInBackground(Movie... movies) {
         for(Movie movie:movies) {
-            movieDatabase.getMoviesDAO().getMovies(idlist.get(listpos + pos - 1)).setGenres(movie.getGenres());
-            movieDatabase.getMoviesDAO().getMovies(idlist.get(listpos + pos - 1)).setRuntime(movie.getRuntime());
+            if(movieDatabase.getMoviesDAO().getMovies(idlist.get(listpos+pos-1))!=null) {
+                movieDatabase.getMoviesDAO().getMovies(idlist.get(listpos + pos - 1)).setGenres(movie.getGenres());
+                movieDatabase.getMoviesDAO().getMovies(idlist.get(listpos + pos - 1)).setRuntime(movie.getRuntime());
+            }
         }
         return null;
     }

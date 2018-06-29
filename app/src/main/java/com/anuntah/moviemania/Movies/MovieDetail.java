@@ -1,10 +1,14 @@
 package com.anuntah.moviemania.Movies;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
@@ -24,14 +28,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anuntah.moviemania.MovieDatabase;
+import com.anuntah.moviemania.Movies.Adapter.MoviesRecyclerAdapter;
 import com.anuntah.moviemania.Movies.Adapter.VideosPagerAdapter;
 import com.anuntah.moviemania.Movies.AsyncTask.MovieDetailAsyncTask;
 import com.anuntah.moviemania.Movies.Constants.Constants;
 import com.anuntah.moviemania.Movies.Networking.Genre;
 import com.anuntah.moviemania.Movies.Networking.Movie;
 import com.anuntah.moviemania.Movies.Networking.MovieAPI;
+import com.anuntah.moviemania.Movies.Networking.Movie_testclass;
 import com.anuntah.moviemania.Movies.Networking.Trailers;
 import com.anuntah.moviemania.R;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Array;
@@ -84,7 +91,7 @@ public class MovieDetail extends AppCompatActivity {
         Bundle b=new Bundle();
         b.putIntegerArrayList(Constants.ID,idlist);
         b.putString("sucess","sucess");
-        PlaceholderFragment placeholderFragment=new PlaceholderFragment();
+        PlaceholderFragment placeholderFragment=new PlaceholderFragment(this);
         placeholderFragment.setArguments(b);
         // Set up the ViewPager with the sections adapter.
         mViewPager =  findViewById(R.id.container);
@@ -93,6 +100,11 @@ public class MovieDetail extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -140,8 +152,17 @@ public class MovieDetail extends AppCompatActivity {
                 trailers=new ArrayList<>();
         ArrayList<Integer> idlist=new ArrayList<>();
         int pos;
+        RecyclerView recyclerView;
+        MoviesRecyclerAdapter similarmoviesRecyclerAdapter;
+        static Context context;
 
-        public PlaceholderFragment() {
+
+        public PlaceholderFragment(){}
+
+
+        @SuppressLint("ValidFragment")
+        public PlaceholderFragment(Context context){
+            this.context=context;
         }
 
 
@@ -153,7 +174,7 @@ public class MovieDetail extends AppCompatActivity {
          */
         Movie movie;
         public static PlaceholderFragment newInstance(int sectionNumber,ArrayList<Integer> idlist,int listpos) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
+            PlaceholderFragment fragment = new PlaceholderFragment(context);
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             args.putIntegerArrayList(Constants.ID,idlist);
@@ -164,6 +185,7 @@ public class MovieDetail extends AppCompatActivity {
 
         MovieDatabase movieDatabase;
         int listpos;
+        ArrayList<Movie> similarmovielist=new ArrayList<>();
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -187,10 +209,33 @@ public class MovieDetail extends AppCompatActivity {
             rating=rootView.findViewById(R.id.rating_number);
             runtime=rootView.findViewById(R.id.run_time);
             mviewpager=rootView.findViewById(R.id.trailer_placeholder);
-
+            recyclerView=rootView.findViewById(R.id.recyclerSimilar);
             pagerAdapter=new VideosPagerAdapter(trailers,getContext(),this);
 
             mviewpager.setAdapter(pagerAdapter);
+
+            similarmoviesRecyclerAdapter=new MoviesRecyclerAdapter(context, similarmovielist, new MoviesRecyclerAdapter.setOnMovieClickListner() {
+                @Override
+                public void OnMovieClicked(int pos) {
+                    ArrayList<Integer> idlist=new ArrayList<>();
+                    for(Movie movie:similarmovielist){
+                        idlist.add(movie.getId());
+                    }
+
+
+                    Intent intent1=new Intent(context,MovieDetail.class);
+                    intent1.putIntegerArrayListExtra(Constants.ID,idlist);
+                    intent1.putExtra(Constants.POS,pos);
+                    startActivity(intent1);
+
+                }
+            });
+
+            LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
+            layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(similarmoviesRecyclerAdapter);
+
 
             Movie movie1=movieDatabase.getMoviesDAO().getMovies(idlist.get(listpos+pos-1));
 
@@ -201,8 +246,34 @@ public class MovieDetail extends AppCompatActivity {
             Call<Movie> call=movieAPI.getMovieDetail(idlist.get(listpos+pos-1));     //listpos+pos-1
             call.enqueue(this);
 
+
             return rootView;
         }
+
+        private void fetchSimilarMovie(int id) {
+            Call<Movie_testclass> call=movieAPI.getSimilarMovie(id);
+            Log.d("ok","SimilarMovie");
+            call.enqueue(new Callback<Movie_testclass>() {
+                @Override
+                public void onResponse(Call<Movie_testclass> call, Response<Movie_testclass> response) {
+                    Log.d("ok",response.toString());
+                    Movie_testclass testclass=response.body();
+                    if (testclass != null) {
+                        for(Movie movie:testclass.getResults()){
+                            similarmovielist.add(movie);
+                        }
+                    }
+                    similarmoviesRecyclerAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onFailure(Call<Movie_testclass> call, Throwable t) {
+
+                }
+            });
+
+        }
+
 
         @Override
         public void onResponse(Call<Movie> call, Response<Movie> response) {
@@ -213,7 +284,7 @@ public class MovieDetail extends AppCompatActivity {
             }
         }
 
-        private void setUpMovie(Movie movie,int flag) {
+        private void setUpMovie(final Movie movie, int flag) {
             String genres = "";
             moviename.setText(movie.getTitle());
 
@@ -231,17 +302,29 @@ public class MovieDetail extends AppCompatActivity {
 
             overview.setText(movie.getOverview());
 
-            if(movie.getImage()!=null&&flag==0) {
-                Log.d("bhavit","upload");
-                byte[] blob = movie.getImage();
-                Bitmap bmp = BitmapFactory.decodeByteArray(blob, 0, blob.length);
-                bmp=bmp.copy(Bitmap.Config.ARGB_8888,true);
-                poster.setImageBitmap(bmp);
-                poster.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            }
+//            if(movie.getImage()!=null&&flag==0) {
+//                Log.d("bhavit","upload");
+//                byte[] blob = movie.getImage();
+//                Bitmap bmp = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+//                bmp=bmp.copy(Bitmap.Config.ARGB_8888,true);
+//                poster.setImageBitmap(bmp);
+//                bmp=null;
+//                System.gc();
+//                poster.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//            }
 
-            if(flag==1)
-            Picasso.get().load(Constants.IMAGE_URI + "" + movie.getPoster_path()).into(poster);
+            Picasso.get().load(Constants.IMAGE_URI + "w342" + movie.getPoster_path()).networkPolicy(NetworkPolicy.OFFLINE).fit().into(poster, new com.squareup.picasso.Callback() {
+                @Override
+                public void onSuccess() {
+                    Log.d("offline",movie.getTitle());
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Picasso.get().load(Constants.IMAGE_URI + "w342" + movie.getPoster_path()).fit().into(poster);
+
+                }
+            });
 
             rating.setText(String.valueOf(movie.getVote_average()));
 
@@ -268,6 +351,8 @@ public class MovieDetail extends AppCompatActivity {
                     handler.post(Update);
                 }
             }, 2500, 2500);
+
+            fetchSimilarMovie(movie.getId());
         }
 
         @Override
@@ -281,6 +366,7 @@ public class MovieDetail extends AppCompatActivity {
             intent.putExtra(Constants.VIDEO,trailers.get(pos).getKey());
             startActivity(intent);
         }
+
     }
 
     /**
@@ -297,6 +383,7 @@ public class MovieDetail extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+
             Fragment fragment= PlaceholderFragment.newInstance(position + 1,idlist,listpos);
             View view=fragment.getView();
             return fragment;

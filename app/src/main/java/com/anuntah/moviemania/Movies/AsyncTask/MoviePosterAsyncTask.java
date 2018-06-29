@@ -45,29 +45,33 @@ public class MoviePosterAsyncTask extends AsyncTask<Movie,String,String> {
 
             }
             movie.setGenres(idToGenre(movie.getGenre_ids()));
-            try {
-                Bitmap bitmap=Picasso.get().load(Constants.IMAGE_URI+""+movie.getPoster_path()).get();
-                ByteArrayOutputStream stream=new ByteArrayOutputStream();
-                int width = bitmap.getWidth();
-                int height = bitmap.getHeight();
-                float scaleWidth = ((float) 480) / width;
-                float scaleHeight = ((float) 640) / height;
-                // CREATE A MATRIX FOR THE MANIPULATION
-                Matrix matrix = new Matrix();
-                // RESIZE THE BIT MAP
-                matrix.postScale(scaleWidth, scaleHeight);
-
-                // "RECREATE" THE NEW BITMAP
-                bitmap=Bitmap.createBitmap(
-                        bitmap, 0, 0, width, height, matrix, false);
-                bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
-                byte[] bytes=stream.toByteArray();
-                Log.d("byte",bytes.length/1024+"");
-                movie.setImage(bytes);
-                Log.d("mohit",Constants.IMAGE_URI+""+movie.getPoster_path());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Bitmap bitmap=Picasso.get().load(Constants.IMAGE_URI+""+movie.getPoster_path()).resize(150,260).get();
+//                ByteArrayOutputStream stream=new ByteArrayOutputStream();
+//                int width = bitmap.getWidth();
+//                int height = bitmap.getHeight();
+//                float scaleWidth = ((float) 480) / width;
+//                float scaleHeight = ((float) 640) / height;
+//                // CREATE A MATRIX FOR THE MANIPULATION
+//                Matrix matrix = new Matrix();
+//                // RESIZE THE BIT MAP
+//                matrix.postScale(scaleWidth, scaleHeight);
+//
+//                // "RECREATE" THE NEW BITMAP
+//                bitmap=Bitmap.createBitmap(
+//                        bitmap, 0, 0, width, height, matrix, false);
+//                bitmap.compress(Bitmap.CompressFormat.JPEG,1,stream);
+//                byte[] bytes=stream.toByteArray();
+//                Log.d("byte",bytes.length/1024+"");
+//                movie.setImage(bytes);
+//                Log.d("mohit",Constants.IMAGE_URI+""+movie.getPoster_path());
+//                bitmap.recycle();
+//                bitmap=null;
+//                System.gc();
+//            }
+//            catch (IOException e) {
+//                e.printStackTrace();
+//            }
             movieArrayList.add(movie);
 
             MovieDAO movieDAO= movieDatabase.getMoviesDAO();
