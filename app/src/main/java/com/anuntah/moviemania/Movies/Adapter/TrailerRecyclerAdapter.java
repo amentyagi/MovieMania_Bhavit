@@ -166,7 +166,6 @@ public class TrailerRecyclerAdapter extends RecyclerView.Adapter<TrailerRecycler
         Picasso.get().load(Constants.IMAGE_URI+"/w185"+movies.get(position).getPoster_path()).networkPolicy(NetworkPolicy.OFFLINE).fit().into(holder.poster, new Callback() {
             @Override
             public void onSuccess() {
-                Log.d("OFFLINE",Constants.IMAGE_URI+"w154"+movies.get(position).getPoster_path());
             }
 
             @Override

@@ -46,4 +46,7 @@ public interface MovieAPI {
     @GET("https://api.themoviedb.org/3/movie/{movie_id}/similar?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&language=en-US&page=1")
     Call<Movie_testclass> getSimilarMovie(@Path("movie_id") int id);
 
+    @GET("https://api.themoviedb.org/3/authentication/session/new?api_key=4b4e67d5132e642d0f6bfc206d5e28d0")
+    Call<SessionToken> getSessionToken(@Query("request_token") String token);
+
 }

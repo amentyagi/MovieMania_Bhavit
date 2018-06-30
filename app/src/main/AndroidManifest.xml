@@ -16,18 +16,27 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:host="www.moviemania.com"
+                    android:scheme="anything"/>
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Movies.TrailerActivity"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape"> </activity>
         <activity
             android:name=".Movies.MovieDetail"
             android:label="@string/title_activity_movie_detail"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".Movies.MovieListView"></activity>
+            android:theme="@style/AppTheme.NoActionBar"> </activity>
+        <activity android:name=".Movies.MovieListView"> </activity>
+        <activity android:name=".WebView"> </activity>
+
+
     </application>
 
 </manifest>

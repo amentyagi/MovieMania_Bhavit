@@ -199,13 +199,15 @@ public class MovieListView extends AppCompatActivity {
                     for(Movie movie:movie_testclass.getResults())
                     genremovie.add(movie);
                 }
+                if(movie_testclass==null)
+                    fetchGenreMovie();
                 genreListAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<Movie_testclass> call, Throwable t) {
                 Log.d("tag","error");
-
+                fetchGenreMovie();
             }
         });
     }
@@ -222,6 +224,8 @@ public class MovieListView extends AppCompatActivity {
                 if (movie_testclass != null) {
                     topratedmovies.addAll(movie_testclass.getResults());
                 }
+                if(movie_testclass==null)
+                    fetchTopratedMovies();
                 topratedRecyclerAdapter.notifyDataSetChanged();
 //                Toast.makeText(getContext(),topratedmovies.size()+"",Toast.LENGTH_SHORT).show();
 
@@ -229,7 +233,7 @@ public class MovieListView extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Movie_testclass> call, Throwable t) {
-
+                fetchTopratedMovies();
             }
         });
     }
@@ -244,12 +248,14 @@ public class MovieListView extends AppCompatActivity {
                 if (testclass != null) {
                     intheatres.addAll(testclass.getResults());
                 }
+                if(testclass==null)
+                    fetchNowShowingMovies();
                 intheatresRecyclerAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<Movie_testclass> call, Throwable t) {
-
+                fetchNowShowingMovies();
             }
         });
     }
@@ -269,6 +275,8 @@ public class MovieListView extends AppCompatActivity {
                     for(Movie movie:movie_testclass.getResults())
                         popular_movie.add(movie);
                 }
+                if(movie_testclass==null)
+                    fetchPopularMovies();
                 popularRecyclerAdapter.notifyDataSetChanged();
 //                Toast.makeText(getContext(),popular_movie.size()+"",Toast.LENGTH_SHORT).show();
 
@@ -276,6 +284,7 @@ public class MovieListView extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Movie_testclass> call, Throwable t) {
+                fetchPopularMovies();
                 Toast.makeText(MovieListView.this,"error",Toast.LENGTH_SHORT).show();
             }
         });
@@ -298,12 +307,14 @@ public class MovieListView extends AppCompatActivity {
                     for(Movie movie:testclass.getResults())
                         upcomingmovie.add(movie);
                 }
+                if(testclass==null)
+                    fetchUpcomingMovies();
                 upcomingRecyclerAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<Movie_testclass> call, Throwable t) {
-
+                fetchUpcomingMovies();
             }
         });
     }

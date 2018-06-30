@@ -8,11 +8,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -86,6 +89,7 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
     ArrayList<Movie> popular_movie=new ArrayList<>();
     MoviesRecyclerAdapter popularmoviesRecyclerAdapter;
 
+    SwipeRefreshLayout swipeRefreshLayout;
     RecyclerView genreRecyclerview;
     GenreListAdapter genreListAdapter;
     ArrayList<Genre> genreArrayList=new ArrayList<>();
@@ -107,9 +111,30 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
         intheatresee=view.findViewById(R.id.in_theatre_text_seeall);
         topratedsee=view.findViewById(R.id.topRated_see_all);
         genreRecyclerview=view.findViewById(R.id.recyclerGenres);
-
+        swipeRefreshLayout=view.findViewById(R.id.swipeRefresh);
         movieDatabase=MovieDatabase.getInstance(getContext());
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setEnabled(false);
+
+                fetchUpcomingMovies();
+                fetchPopularMovies();
+                fetchTopRatedMovies();
+                fetchInTheatresMovies();
+
+                fetchGenres();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setEnabled(true);
+                    }
+                },10000);
+
+            }
+        });
 
 
         upcomingsee.setOnClickListener(new View.OnClickListener() {
@@ -323,52 +348,57 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
                 @Override
                 public void onResponse(Call<GenreList> call, Response<GenreList> response) {
                     GenreList genreList = response.body();
-                    ArrayList<Genre> genres = genreList.getGenres();
+                    ArrayList<Genre> genres = null;
+                    if (genreList == null) {
+                        fetchGenres();
+                    }
                     Log.d("tage", genreArrayList.size() + "");
 
-                    for (Genre genre : genres) {
-                        switch (genre.getId() + "") {
-                            case Genre_constants.ACTION:
-                                genre.setDrawableid(R.drawable.action);
-                                genreArrayList.add(genre);
-                                break;
-                            case Genre_constants.ADVENTURE:
-                                genre.setDrawableid(R.drawable.adventure);
-                                genreArrayList.add(genre);
-                                break;
-                            case Genre_constants.ANIMATION:
-                                genre.setDrawableid(R.drawable.animation);
-                                genreArrayList.add(genre);
-                                break;
-                            case Genre_constants.COMEDY:
-                                genre.setDrawableid(R.drawable.comedy);
-                                genreArrayList.add(genre);
-                                break;
-                            case Genre_constants.DRAMA:
-                                genre.setDrawableid(R.drawable.drama);
-                                genreArrayList.add(genre);
-                                break;
-                            case Genre_constants.FANTASY:
-                                genre.setDrawableid(R.drawable.fantasy);
-                                genreArrayList.add(genre);
-                                break;
-                            case Genre_constants.HORROR:
-                                genre.setDrawableid(R.drawable.horror);
-                                genreArrayList.add(genre);
-                                break;
-                            case Genre_constants.ROMANCE:
-                                genre.setDrawableid(R.drawable.romance);
-                                genreArrayList.add(genre);
-                                break;
-                            case Genre_constants.THRILLER:
-                                genre.setDrawableid(R.drawable.thriller);
-                                genreArrayList.add(genre);
-                                break;
-                            case Genre_constants.SCI_FICTION:
-                                genre.setDrawableid(R.drawable.scifi);
-                                genreArrayList.add(genre);
-                        }
+                    if (genres != null) {
+                        for (Genre genre : genres) {
+                            switch (genre.getId() + "") {
+                                case Genre_constants.ACTION:
+                                    genre.setDrawableid(R.drawable.action);
+                                    genreArrayList.add(genre);
+                                    break;
+                                case Genre_constants.ADVENTURE:
+                                    genre.setDrawableid(R.drawable.adventure);
+                                    genreArrayList.add(genre);
+                                    break;
+                                case Genre_constants.ANIMATION:
+                                    genre.setDrawableid(R.drawable.animation);
+                                    genreArrayList.add(genre);
+                                    break;
+                                case Genre_constants.COMEDY:
+                                    genre.setDrawableid(R.drawable.comedy);
+                                    genreArrayList.add(genre);
+                                    break;
+                                case Genre_constants.DRAMA:
+                                    genre.setDrawableid(R.drawable.drama);
+                                    genreArrayList.add(genre);
+                                    break;
+                                case Genre_constants.FANTASY:
+                                    genre.setDrawableid(R.drawable.fantasy);
+                                    genreArrayList.add(genre);
+                                    break;
+                                case Genre_constants.HORROR:
+                                    genre.setDrawableid(R.drawable.horror);
+                                    genreArrayList.add(genre);
+                                    break;
+                                case Genre_constants.ROMANCE:
+                                    genre.setDrawableid(R.drawable.romance);
+                                    genreArrayList.add(genre);
+                                    break;
+                                case Genre_constants.THRILLER:
+                                    genre.setDrawableid(R.drawable.thriller);
+                                    genreArrayList.add(genre);
+                                    break;
+                                case Genre_constants.SCI_FICTION:
+                                    genre.setDrawableid(R.drawable.scifi);
+                                    genreArrayList.add(genre);
+                            }
 
+                        }
                     }
                     genreListAdapter.notifyDataSetChanged();
                     movieDatabase.genreDAO().insert(genreArrayList);
@@ -378,7 +408,7 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
                 @Override
                 public void onFailure(Call<GenreList> call, Throwable t) {
                     Log.d("tag", "ok");
-
+                    fetchGenres();
                 }
             });
         }
@@ -406,7 +436,7 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
 
             @Override
             public void onFailure(Call<Movie_testclass> call, Throwable t) {
-
+                fetchInTheatresMovies();
             }
         });
     }
@@ -419,7 +449,7 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
                 public void onResponse(Call<TrailersTestClass> call, Response<TrailersTestClass> response) {
                     TrailersTestClass results = response.body();
 
-                    ArrayList<Trailers> trailersArrayList = null;
+                    ArrayList<Trailers> trailersArrayList;
 
 
                     if (results != null) {
@@ -441,6 +471,7 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
                 public void onFailure(Call<TrailersTestClass> call, Throwable t) {
                     Toast.makeText(getContext(),"nokey",Toast.LENGTH_SHORT).show();
                     Log.d("error",t.toString());
+                    fetchInTheatresMovies();
                 }
             });
 
@@ -463,12 +494,14 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
                     new MoviePosterAsyncTask(movieDatabase,Constants.TOPRATED).execute(topratedmovies.toArray(new Movie[topratedmovies.size()]));
 
                 }
+                if(movie_testclass==null)
+                    fetchTopRatedMovies();
                 topratedRecyclerAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<Movie_testclass> call, Throwable t) {
-
+                fetchTopRatedMovies();
             }
         });
     }
@@ -490,6 +523,8 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
                     }
                     new MoviePosterAsyncTask(movieDatabase,Constants.pOPULARS).execute(popular_movie.toArray(new Movie[popular_movie.size()]));
                 }
+                if(movie_testclass==null)
+                    fetchPopularMovies();
                 popularmoviesRecyclerAdapter.notifyDataSetChanged();
 //                Toast.makeText(getContext(),popular_movie.size()+"",Toast.LENGTH_SHORT).show();
             }
@@ -497,6 +532,7 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
             @Override
             public void onFailure(Call<Movie_testclass> call, Throwable t) {
                 Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+                fetchPopularMovies();
             }
         });
 
@@ -523,19 +559,26 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
 
                 Movie_testclass results=response.body();
                 Log.d("result",response.toString());
-                ArrayList<Movie> upcoming_list= null;
+                ArrayList<Movie> upcoming_list= new ArrayList<>();
                 if (results != null) {
                     upcomingmovielist.clear();
+                    upcoming_list.clear();
                     upcoming_list = results.getResults();
                     upcomingmovie.addAll(upcoming_list);
                     upcomingmovielist=fetchVideos(upcoming_list);
+                    swipeRefreshLayout.setRefreshing(false);
+
                 }
-                new MoviePosterAsyncTask(movieDatabase,Constants.UPCOMING).execute(upcoming_list.toArray(new Movie[upcoming_list.size()]));
+                swipeRefreshLayout.setRefreshing(false);
+                if (upcoming_list != null) {
+                    new MoviePosterAsyncTask(movieDatabase,Constants.UPCOMING).execute(upcoming_list.toArray(new Movie[upcoming_list.size()]));
+                }
             }
 
             @Override
             public void onFailure(Call<Movie_testclass> call, Throwable t) {
 
+                fetchUpcomingMovies();
             }
         });
     }
@@ -556,15 +599,16 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
                                 break;
                             }
                         }
+
                         upcomingRecyclerAdapter.notifyDataSetChanged();
                     }
-
                 }
 
                 @Override
                 public void onFailure(Call<TrailersTestClass> call, Throwable t) {
                     Toast.makeText(getContext(),"nokey",Toast.LENGTH_SHORT).show();
                     Log.d("error",t.toString());
+                    fetchUpcomingMovies();
                 }
             });
 
@@ -645,6 +689,27 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
     @Override
     public void onClick(View v) {
         Toast.makeText(getContext(),"Impressed",Toast.LENGTH_SHORT).show();
+    }
+
+    private static class NpaLinearLayoutManager extends LinearLayoutManager{
+
+
+        @Override
+        public boolean supportsPredictiveItemAnimations() {
+            return false;
+        }
+
+        public NpaLinearLayoutManager(Context context) {
+            super(context);
+        }
+
+        public NpaLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
+            super(context, orientation, reverseLayout);
+        }
+
+        public NpaLinearLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+            super(context, attrs, defStyleAttr, defStyleRes);
+        }
     }
 
 //    private String genreMatcher(int pos) {
