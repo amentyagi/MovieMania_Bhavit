@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "69121364999",
+    "firebase_url": "https://moviemaniacollab-e1516.firebaseio.com",
+    "project_id": "moviemaniacollab-e1516",
+    "storage_bucket": "moviemaniacollab-e1516.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:69121364999:android:52c7d65d8cd77d34",
+        "android_client_info": {
+          "package_name": "com.anuntah.moviemaniaa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "69121364999-isd7j1ge58c3odnfcerld8vhu9v81lko.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anuntah.moviemaniaa",
+            "certificate_hash": "0f2cf279ea2073f63f48abe8cc00ffe9b141dca8"
+          }
+        },
+        {
+          "client_id": "69121364999-cuoh44vp7g1jetciaj9ehdaidcq728h2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7E29K1tJKvA6svAUD-sYdlDPJyv8O2xc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "69121364999-cuoh44vp7g1jetciaj9ehdaidcq728h2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

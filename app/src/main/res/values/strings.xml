@@ -9,4 +9,6 @@
     <string name="title_activity_movie_detail">MovieDetail</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="facebook_app_id">556662831396062</string>
+    <string name="fb_login_protocol_scheme">fb556662831396062</string>
 </resources>

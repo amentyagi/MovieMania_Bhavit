@@ -262,7 +262,7 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
                             return true;
                         }
                     });
-                    Picasso.get().load(Constants.IMAGE_URI + "w500" + intheatres.get(pos).getPoster_path()).networkPolicy(NetworkPolicy.OFFLINE).into(imageView, new com.squareup.picasso.Callback() {
+                    Picasso.get().load(Constants.IMAGE_URI + "w500" + intheatres.get(pos).getPoster_path()).networkPolicy(NetworkPolicy.OFFLINE).resize(800, 1200).into(imageView, new com.squareup.picasso.Callback() {
                         @Override
                         public void onSuccess() {
 
@@ -349,13 +349,9 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
                 public void onResponse(Call<GenreList> call, Response<GenreList> response) {
                     GenreList genreList = response.body();
                     ArrayList<Genre> genres = null;
-                    if (genreList == null) {
-                        fetchGenres();
-                    }
-                    Log.d("tage", genreArrayList.size() + "");
 
-                    if (genres != null) {
-                        for (Genre genre : genres) {
+                    Log.d("tage", genreList.getGenres().size() + "");
+                        for (Genre genre : genreList.getGenres()) {
                             switch (genre.getId() + "") {
                                 case Genre_constants.ACTION:
                                     genre.setDrawableid(R.drawable.action);
@@ -398,7 +394,7 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
                                     genreArrayList.add(genre);
                             }
 
-                        }
+
                     }
                     genreListAdapter.notifyDataSetChanged();
                     movieDatabase.genreDAO().insert(genreArrayList);
@@ -653,7 +649,7 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
                     return true;
                 }
             });
-            Picasso.get().load(Constants.IMAGE_URI + "w500" + upcomingmovielist.get(pos).getPoster_path()).networkPolicy(NetworkPolicy.OFFLINE).into(imageView, new com.squareup.picasso.Callback() {
+            Picasso.get().load(Constants.IMAGE_URI + "w500" + upcomingmovielist.get(pos).getPoster_path()).networkPolicy(NetworkPolicy.OFFLINE).resize(800, 1200).into(imageView, new com.squareup.picasso.Callback() {
                 @Override
                 public void onSuccess() {
 
