@@ -22,14 +22,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.anuntah.moviemania.MovieDatabase;
+import com.anuntah.moviemania.Movies.AsyncTask.MoviePosterAsyncTask;
 import com.anuntah.moviemania.Movies.Constants.Constants;
+import com.anuntah.moviemania.Movies.MovieListView;
+import com.anuntah.moviemania.Movies.Networking.Movie;
 import com.anuntah.moviemania.Movies.Networking.Trailers;
 import com.anuntah.moviemania.Movies.Networking.TrailersTestClass;
 import com.anuntah.moviemania.Movies.TrailerActivity;
 import com.anuntah.moviemania.R;
 import com.anuntah.moviemania.TvShows.Adapter.TvShowRecyclerAdapter;
 import com.anuntah.moviemania.TvShows.Adapter.TvTrailerRecyclerAdapter;
+import com.anuntah.moviemania.TvShows.AsyncTask.TvShowAsyncTask;
 import com.anuntah.moviemania.TvShows.NetworkingAndDAO.TvAPI;
 import com.anuntah.moviemania.TvShows.NetworkingAndDAO.TvShow;
 import com.anuntah.moviemania.TvShows.NetworkingAndDAO.TvShow_testclass;
@@ -68,6 +75,9 @@ public class TvFragment extends Fragment {
     TvTrailerRecyclerAdapter tvOnAirTodayAdapter;
     TvTrailerRecyclerAdapter tvonAirAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
+    TextView airtodayseeall,onairseeall,popularsee,topratedsee;
+
+    MovieDatabase movieDatabase;
 
     public TvFragment() {
         // Required empty public constructor
@@ -85,6 +95,52 @@ public class TvFragment extends Fragment {
         tvshowpopularReycler=view.findViewById(R.id.recyclerPopular);
         tvshowtopratedReycler=view.findViewById(R.id.recyclerTopRated);
         swipeRefreshLayout=view.findViewById(R.id.swipeRefresh);
+        airtodayseeall=view.findViewById(R.id.see_all_genres);
+        popularsee=view.findViewById(R.id.popular_see_all);
+        onairseeall=view.findViewById(R.id.in_theatre_text_seeall);
+        topratedsee=view.findViewById(R.id.topRated_see_all);
+
+        movieDatabase=MovieDatabase.getInstance(getContext());
+
+
+
+        airtodayseeall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(),TvListView.class);
+                intent.putExtra(Constants.UPCOMING,"onairtoday");
+                startActivity(intent);
+            }
+        });
+
+        popularsee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(),TvListView.class);
+                intent.putExtra(Constants.UPCOMING,"popular");
+                startActivity(intent);
+
+            }
+        });
+
+        onairseeall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(),TvListView.class);
+                intent.putExtra(Constants.UPCOMING,"onair");
+                startActivity(intent);
+            }
+        });
+
+        topratedsee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(),TvListView.class);
+                intent.putExtra(Constants.UPCOMING,"toprated");
+                startActivity(intent);
+            }
+        });
+
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -266,6 +322,19 @@ public class TvFragment extends Fragment {
 
     void setUpTvShowsFragment() {
 
+        if(movieDatabase.getTvDAO().getTvTopRated(Constants.TOPRATED)!=null){
+            tvtopratedList.addAll(movieDatabase.getTvDAO().getTvTopRated(Constants.TOPRATED));
+        }
+        if(movieDatabase.getTvDAO().getTvPopular(Constants.pOPULARS)!=null){
+            tvpopularList.addAll(movieDatabase.getTvDAO().getTvPopular(Constants.pOPULARS));
+        }
+        if(movieDatabase.getTvDAO().getMoviesUpcomingIntheatres(Constants.UPCOMING)!=null){
+            tvonairtodayList.addAll(movieDatabase.getTvDAO().getMoviesUpcomingIntheatres(Constants.UPCOMING));
+        }
+        if(movieDatabase.getTvDAO().getMoviesUpcomingIntheatres(Constants.INTHEATRES)!=null){
+            tvonairList.addAll(movieDatabase.getTvDAO().getMoviesUpcomingIntheatres(Constants.INTHEATRES));
+        }
+
         fetchTvShowsOnAir();
         fetchTvShowsOnAirToday();
         fetchTvShowsPopular();
@@ -286,6 +355,7 @@ public class TvFragment extends Fragment {
                     tvonAirAdapter.notifyDataSetChanged();
                     ArrayList<TvShow> tvShowArrayList = new ArrayList<>(testclass.getResults());
                     getTvonAirTrailer(tvShowArrayList);
+                    new TvShowAsyncTask(movieDatabase, Constants.INTHEATRES).execute(tvShowArrayList.toArray(new TvShow[tvShowArrayList.size()]));
                     swipeRefreshLayout.setRefreshing(false);
                 }
             }
@@ -351,6 +421,8 @@ public class TvFragment extends Fragment {
                 if(testclass!=null){
                     tvtopratedList.clear();
                     tvtopratedList.addAll(testclass.getResults());
+
+                    new TvShowAsyncTask(movieDatabase, Constants.TOPRATED).execute(tvtopratedList.toArray(new TvShow[tvtopratedList.size()]));
                     topratedtvshowAdapter.notifyDataSetChanged();
                 }
             }
@@ -372,6 +444,8 @@ public class TvFragment extends Fragment {
                 if(testclass!=null){
                     tvpopularList.clear();
                     tvpopularList.addAll(testclass.getResults());
+
+                    new TvShowAsyncTask(movieDatabase, Constants.pOPULARS).execute(tvpopularList.toArray(new TvShow[tvpopularList.size()]));
                     populartvshowAdapter.notifyDataSetChanged();
                 }
             }
@@ -397,6 +471,7 @@ public class TvFragment extends Fragment {
                     tvOnAirTodayAdapter.notifyDataSetChanged();
                     ArrayList<TvShow> tvShowArrayList = new ArrayList<>(testclass.getResults());
                     getTvShowTrailer(tvShowArrayList);
+                    new TvShowAsyncTask(movieDatabase, Constants.UPCOMING).execute(tvShowArrayList.toArray(new TvShow[tvShowArrayList.size()]));
                 }
             }
 

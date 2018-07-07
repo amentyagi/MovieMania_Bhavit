@@ -1,43 +1,42 @@
-package com.anuntah.moviemania.Movies.AsyncTask;
+package com.anuntah.moviemania.TvShows.AsyncTask;
 
 import android.os.AsyncTask;
 
 import com.anuntah.moviemania.MovieDatabase;
 import com.anuntah.moviemania.Movies.Constants.Constants;
 import com.anuntah.moviemania.Movies.Networking.Genre;
-import com.anuntah.moviemania.Movies.Networking.Movie;
-import com.anuntah.moviemania.Movies.Networking.MovieDAO;
 import com.anuntah.moviemania.TvShows.NetworkingAndDAO.TvShow;
+import com.anuntah.moviemania.TvShows.NetworkingAndDAO.TvShowDAO;
 
 import java.util.ArrayList;
 
-public class MoviePosterAsyncTask extends AsyncTask<Movie,String,String> {
+public class TvShowAsyncTask extends AsyncTask<TvShow,String,String> {
 
 
     private MovieDatabase movieDatabase;
     private String Tag;
 
-    public MoviePosterAsyncTask(MovieDatabase movieDatabase,String Tag) {
+    public TvShowAsyncTask(MovieDatabase movieDatabase, String Tag) {
         this.movieDatabase = movieDatabase;
         this.Tag=Tag;
     }
 
     @Override
-    protected String doInBackground(Movie... movies) {
+    protected String doInBackground(TvShow... tvshows) {
 
-        ArrayList<Movie> movieArrayList=new ArrayList<>();
-        for(Movie movie:movies){
+        ArrayList<TvShow> tvshowArrayList=new ArrayList<>();
+        for(TvShow tvshow:tvshows){
             switch(Tag) {
-                case Constants.pOPULARS:movie.setTag(Constants.pOPULARS);
+                case Constants.pOPULARS:tvshow.setTag(Constants.pOPULARS);
                 break;
-                case Constants.UPCOMING:movie.setTag(Constants.UPCOMING);
+                case Constants.UPCOMING:tvshow.setTag(Constants.UPCOMING);
                 break;
-                case Constants.INTHEATRES:movie.setTag(Constants.INTHEATRES);
+                case Constants.INTHEATRES:tvshow.setTag(Constants.INTHEATRES);
                 break;
-                case Constants.TOPRATED:movie.setTag(Constants.TOPRATED);
+                case Constants.TOPRATED:tvshow.setTag(Constants.TOPRATED);
 
             }
-            movie.setGenres(idToGenre(movie.getGenre_ids()));
+//            tvshow.setGenres(idToGenre(tvshow.getGenre_ids()));
 //            try {
 //                Bitmap bitmap=Picasso.get().load(Constants.IMAGE_URI+""+movie.getPoster_path()).resize(150,260).get();
 //                ByteArrayOutputStream stream=new ByteArrayOutputStream();
@@ -65,10 +64,10 @@ public class MoviePosterAsyncTask extends AsyncTask<Movie,String,String> {
 //            catch (IOException e) {
 //                e.printStackTrace();
 //            }
-            movieArrayList.add(movie);
+            tvshowArrayList.add(tvshow);
 
-            MovieDAO movieDAO= movieDatabase.getMoviesDAO();
-            movieDAO.insertMovie(movieArrayList);
+            TvShowDAO tvShowDAO=movieDatabase.getTvDAO();
+            tvShowDAO.insertTvShow(tvshowArrayList);
         }
         return "Stored";
     }

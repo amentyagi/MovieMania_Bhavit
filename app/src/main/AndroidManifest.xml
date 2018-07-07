@@ -57,6 +57,7 @@
             android:theme="@style/AppTheme.NoActionBar"> </activity>
         <activity android:name=".Movies.MovieListView"> </activity>
         <activity android:name=".WebView"> </activity>
+        <activity android:name=".TvShows.TvListView" />
 
 
     </application>

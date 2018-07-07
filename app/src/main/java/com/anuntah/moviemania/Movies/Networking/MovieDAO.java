@@ -6,7 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.anuntah.moviemania.Movies.Constants.Constants;
+import com.anuntah.moviemania.TvShows.NetworkingAndDAO.TvShow;
 
 import java.util.ArrayList;
 import java.util.List;

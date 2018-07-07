@@ -14,8 +14,10 @@ import com.anuntah.moviemania.Movies.Networking.Movie;
 import com.anuntah.moviemania.Movies.Networking.MovieDAO;
 import com.anuntah.moviemania.Movies.Networking.Trailers;
 import com.anuntah.moviemania.Movies.Networking.TrailersDAO;
+import com.anuntah.moviemania.TvShows.NetworkingAndDAO.TvShow;
+import com.anuntah.moviemania.TvShows.NetworkingAndDAO.TvShowDAO;
 
-@Database(entities = {Movie.class, Trailers.class, Genre.class},version = 1 )
+@Database(entities = {Movie.class, Trailers.class, Genre.class, TvShow.class},version = 1 )
 @TypeConverters({MovieTypeConverter.class})
 
 public abstract class MovieDatabase extends RoomDatabase {
@@ -35,4 +37,5 @@ public abstract class MovieDatabase extends RoomDatabase {
     public abstract MovieDAO getMoviesDAO();
     public abstract TrailersDAO getTrailersDAO();
     public abstract GenreDAO genreDAO();
+    public abstract TvShowDAO getTvDAO();
 }

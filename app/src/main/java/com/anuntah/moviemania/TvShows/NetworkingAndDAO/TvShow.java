@@ -3,13 +3,16 @@ package com.anuntah.moviemania.TvShows.NetworkingAndDAO;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
+import com.anuntah.moviemania.Movies.Networking.Genre;
 
 import java.util.ArrayList;
 
 @Entity
 public class TvShow {
 
-    @PrimaryKey
+    @PrimaryKey@NonNull
     private String id;
     private String name;
     private ArrayList<Integer> genre_ids;
@@ -21,6 +24,8 @@ public class TvShow {
     private String overview;
     private String poster_path;
     private String trailer_id;
+    private String Tag;
+    private ArrayList<Genre> Genres;
 
 
 
@@ -52,6 +57,22 @@ public class TvShow {
     }
 
     public TvShow() {
+    }
+
+    public String getTag() {
+        return Tag;
+    }
+
+    public void setTag(String tag) {
+        Tag = tag;
+    }
+
+    public ArrayList<Genre> getGenres() {
+        return Genres;
+    }
+
+    public void setGenres(ArrayList<Genre> genres) {
+        Genres = genres;
     }
 
     public String getTrailer_id() {
