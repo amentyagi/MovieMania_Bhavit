@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
@@ -65,6 +67,7 @@ public class TvFragment extends Fragment {
     TvShowRecyclerAdapter topratedtvshowAdapter;
     TvTrailerRecyclerAdapter tvOnAirTodayAdapter;
     TvTrailerRecyclerAdapter tvonAirAdapter;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public TvFragment() {
         // Required empty public constructor
@@ -81,6 +84,22 @@ public class TvFragment extends Fragment {
         tvshowonAirTodayRecyler =view.findViewById(R.id.recyclerViewMovies);
         tvshowpopularReycler=view.findViewById(R.id.recyclerPopular);
         tvshowtopratedReycler=view.findViewById(R.id.recyclerTopRated);
+        swipeRefreshLayout=view.findViewById(R.id.swipeRefresh);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setEnabled(false);
+                setUpTvShowsFragment();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setEnabled(true);
+                    }
+                },10000);
+            }
+        });
 
         retrofit=new Retrofit.Builder().baseUrl("https://api.themoviedb.org/").addConverterFactory(GsonConverterFactory.create()).build();
         tvAPI=retrofit.create(TvAPI.class);
@@ -267,29 +286,44 @@ public class TvFragment extends Fragment {
                     tvonAirAdapter.notifyDataSetChanged();
                     ArrayList<TvShow> tvShowArrayList = new ArrayList<>(testclass.getResults());
                     getTvonAirTrailer(tvShowArrayList);
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
 
             @Override
             public void onFailure(Call<TvShow_testclass> call, Throwable t) {
-                fetchTvShowsOnAirToday();
+                fetchTvShowsOnAir();
             }
         });
     }
 
+    int flag;
     private void getTvonAirTrailer(ArrayList<TvShow> tvShowArrayList) {
-
+        flag=1;
         for(final TvShow tvShow:tvShowArrayList) {
             Call<TrailersTestClass> call = tvAPI.getTrailerList(tvShow.getId());
             call.enqueue(new Callback<TrailersTestClass>() {
                 @Override
                 public void onResponse(Call<TrailersTestClass> call, Response<TrailersTestClass> response) {
                     TrailersTestClass testClass=response.body();
+
+
+                    if(response.code()==429&&flag==1){
+                        flag=0;
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                fetchTvShowsOnAir();
+                            }
+                        },10000);
+                    }
+
                     if(testClass!=null){
                         for(Trailers trailers:testClass.getResults()){
                             if (trailers.getType().equals("Trailer")) {
                                 TvShow tvShow1 = new TvShow(tvShow.getId(), tvShow.getName(), tvShow.getGenre_ids(), tvShow.getPopularity(), tvShow.getVote_count(), tvShow.getFirst_air_date(), tvShow.getBackdrop_path(), tvShow.getVote_average(), tvShow.getOverview(), tvShow.getPoster_path(), trailers.getKey());
                                 tvonairList.add(tvShow1);
+                                swipeRefreshLayout.setRefreshing(false);
                                 break;
                             }
                         }
@@ -300,7 +334,7 @@ public class TvFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<TrailersTestClass> call, Throwable t) {
-                    fetchTvShowsOnAirToday();
+                    fetchTvShowsOnAir();
                 }
             });
         }
@@ -374,13 +408,26 @@ public class TvFragment extends Fragment {
 
     }
 
+    int flags;
     private void getTvShowTrailer(ArrayList<TvShow> tvShowArrayList) {
+        flags=1;
         for(final TvShow tvShow:tvShowArrayList) {
             Call<TrailersTestClass> call = tvAPI.getTrailerList(tvShow.getId());
             call.enqueue(new Callback<TrailersTestClass>() {
                 @Override
                 public void onResponse(Call<TrailersTestClass> call, Response<TrailersTestClass> response) {
                     TrailersTestClass testClass=response.body();
+
+                    if(response.code()==429&&flags==1){
+                        flags=0;
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                fetchTvShowsOnAir();
+                            }
+                        },10000);
+                    }
+
                     if(testClass!=null){
                         for(Trailers trailers:testClass.getResults()){
                             if (trailers.getType().equals("Trailer")) {

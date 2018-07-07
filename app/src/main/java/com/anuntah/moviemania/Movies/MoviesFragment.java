@@ -453,8 +453,8 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
                 public void onResponse(Call<TrailersTestClass> call, Response<TrailersTestClass> response) {
                     TrailersTestClass results = response.body();
 
-                    if(response.code()==429&&flag==1){
-                        flag=0;
+                    if(response.code()==429&&flags==1){
+                        flags=0;
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
