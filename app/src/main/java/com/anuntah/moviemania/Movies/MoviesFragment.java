@@ -287,7 +287,6 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
         LinearLayoutManager upcominglayout=new LinearLayoutManager(getContext());
         upcominglayout.setOrientation(LinearLayoutManager.HORIZONTAL);
         SnapHelper snapHelpernow = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(upcomingRecyclerView);
         intheatresrecycler.setLayoutManager(upcominglayout);
         snapHelpernow.attachToRecyclerView(intheatresrecycler);
 
@@ -419,54 +418,73 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
         call.enqueue(new Callback<Movie_testclass>() {
             @Override
             public void onResponse(Call<Movie_testclass> call, Response<Movie_testclass> response) {
-                Log.d("inon",response.toString());
-                intheatres.clear();
                 Movie_testclass testclass=response.body();
                 ArrayList<Movie> list= new ArrayList<>();
                 if (testclass != null) {
+                    Log.d("inon",response.toString());
                     list.addAll(testclass.getResults());
+                    Log.d("inon",testclass.getResults().size()+"");
+                    fetchInTheatresTrailers(list);
                 }
-                new MoviePosterAsyncTask(movieDatabase,Constants.INTHEATRES).execute(list.toArray(new Movie[list.size()]));
-                fetchInTheatresTrailers(list);
+                if(list.size()!=0) {
+                    new MoviePosterAsyncTask(movieDatabase, Constants.INTHEATRES).execute(list.toArray(new Movie[list.size()]));
+                }
             }
 
             @Override
             public void onFailure(Call<Movie_testclass> call, Throwable t) {
+                Log.d("inon","intheatrefail");
                 fetchInTheatresMovies();
             }
         });
     }
 
+    int flags;
+
     private void fetchInTheatresTrailers(ArrayList<Movie> videoslist) {
-        for (final Movie movie:videoslist) {
+        flags=1;
+        intheatres.clear();
+        intheatresRecyclerAdapter.notifyDataSetChanged();
+        for (int i=0;i<10;i++) {
+            final Movie movie=videoslist.get(i);
             Call<TrailersTestClass> call = movieAPI.getTrailerList(Integer.toString(movie.getId()));
             call.enqueue(new Callback<TrailersTestClass>() {
                 @Override
                 public void onResponse(Call<TrailersTestClass> call, Response<TrailersTestClass> response) {
                     TrailersTestClass results = response.body();
 
+                    if(response.code()==429&&flag==1){
+                        flag=0;
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                fetchUpcomingMovies();
+                            }
+                        },10000);
+                    }
+
                     ArrayList<Trailers> trailersArrayList;
-
-
                     if (results != null) {
                         trailersArrayList = results.getResults();
                         for (Trailers trailers : trailersArrayList) {
+
+                            Log.d("inon",trailers.getType());
                             if (trailers.getType().equals("Trailer")) {
                                 intheatres.add(new Movie(movie.getId(), movie.getTitle(), movie.getRelease_date(), movie.getPoster_path(), movie.getGenre_ids(), trailers.getKey(), movie.getBackdrop_path()));
+                                intheatresRecyclerAdapter.notifyDataSetChanged();
 //                                Toast.makeText(getContext(), intheatres.get(0).getTrailerid(), Toast.LENGTH_SHORT).show();
-
                                 break;
 
                             }
-                            intheatresRecyclerAdapter.notifyDataSetChanged();
                         }
+                        Log.d("inon",intheatres.size()+"");
                     }
                 }
 
                 @Override
                 public void onFailure(Call<TrailersTestClass> call, Throwable t) {
                     Toast.makeText(getContext(),"nokey",Toast.LENGTH_SHORT).show();
-                    Log.d("error",t.toString());
+                    Log.d("inon",t.toString());
                     fetchInTheatresMovies();
                 }
             });
@@ -555,61 +573,78 @@ public class MoviesFragment extends Fragment implements TrailerRecyclerAdapter.T
 
                 Movie_testclass results=response.body();
                 Log.d("result",response.toString());
-                ArrayList<Movie> upcoming_list= new ArrayList<>();
+                ArrayList<Movie> upcoming_list=null;
                 if (results != null) {
-                    upcomingmovielist.clear();
-                    upcoming_list.clear();
+                    Log.d("test",response.toString());
                     upcoming_list = results.getResults();
-                    upcomingmovie.addAll(upcoming_list);
-                    upcomingmovielist=fetchVideos(upcoming_list);
+//  upcomingmovie.addAll(upcoming_list);
+                    upcomingmovielist.clear();
+                    upcomingRecyclerAdapter.notifyDataSetChanged();
+                    fetchVideos(upcoming_list);
                     swipeRefreshLayout.setRefreshing(false);
 
                 }
                 swipeRefreshLayout.setRefreshing(false);
-                if (upcoming_list != null) {
+                if (upcoming_list!=null) {
                     new MoviePosterAsyncTask(movieDatabase,Constants.UPCOMING).execute(upcoming_list.toArray(new Movie[upcoming_list.size()]));
                 }
             }
 
             @Override
             public void onFailure(Call<Movie_testclass> call, Throwable t) {
-
+                Log.d("test","onfailupcoming");
                 fetchUpcomingMovies();
             }
         });
     }
 
-    private ArrayList<Movie> fetchVideos( ArrayList<Movie> videoslist) {
-        for (final Movie movie:videoslist) {
+    int flag;
+    void fetchVideos( ArrayList<Movie> videoslist) {
+        flag=1;
+        for (int i=0;i<10;i++) {
+            final Movie movie=videoslist.get(i);
             Call<TrailersTestClass> call = movieAPI.getTrailerList(Integer.toString(movie.getId()));
             call.enqueue(new Callback<TrailersTestClass>() {
                 @Override
                 public void onResponse(Call<TrailersTestClass> call, Response<TrailersTestClass> response) {
                     TrailersTestClass results = response.body();
+
+                    if(response.code()==429&&flag==1){
+                        flag=0;
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                fetchUpcomingMovies();
+                            }
+                        },10000);
+                    }
+
+                    Log.d("test",response.toString());
                     ArrayList<Trailers> trailersArrayList = null;
                     if (results != null) {
                         trailersArrayList = results.getResults();
                         for (Trailers trailers : trailersArrayList) {
                             if (trailers.getType().equals("Trailer")) {
                                 upcomingmovielist.add(new Movie(movie.getId(), movie.getTitle(), movie.getRelease_date(), movie.getPoster_path(), movie.getGenre_ids(), trailers.getKey(), movie.getBackdrop_path()));
+                                upcomingRecyclerAdapter.notifyDataSetChanged();
                                 break;
                             }
                         }
-
-                        upcomingRecyclerAdapter.notifyDataSetChanged();
+                        Log.d("test",upcomingmovielist.size()+"");
                     }
+
                 }
 
                 @Override
                 public void onFailure(Call<TrailersTestClass> call, Throwable t) {
                     Toast.makeText(getContext(),"nokey",Toast.LENGTH_SHORT).show();
+                    Log.d("test","onfailupcomingtrailer");
                     Log.d("error",t.toString());
                     fetchUpcomingMovies();
                 }
             });
 
         }
-        return upcomingmovielist;
     }
 
     @Override

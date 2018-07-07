@@ -3,7 +3,6 @@ package com.anuntah.moviemania.Movies.Networking;
 import com.anuntah.moviemania.RequestToken;
 import com.anuntah.moviemania.SessionId;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -26,7 +25,7 @@ public interface MovieAPI {
     @GET("movie/upcoming?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&region=US")
     Call<Movie_testclass> getUpcomingMovieList(@QueryMap Map<String, String> pop,@Query("page_no") int page);
 
-    @GET("movie/{movie_id}/videos?api_key=4b4e67d5132e642d0f6bfc206d5e28d0")
+    @GET("https://api.themoviedb.org/3/movie/{movie_id}/videos?api_key=4b4e67d5132e642d0f6bfc206d5e28d0")
     Call<TrailersTestClass> getTrailerList(@Path("movie_id")String id);
 
     @GET("movie/top_rated?api_key=4b4e67d5132e642d0f6bfc206d5e28d0")

@@ -18,7 +18,7 @@ import retrofit2.http.QueryMap;
 
 public interface TvAPI {
 
-    @GET("/tv/airing_today?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&language=en-US")
+    @GET("3/tv/airing_today?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&language=en-US")
     Call<TvShow_testclass> getTvAiringToday(@Query("page_no") int page);
 
     @GET("https://api.themoviedb.org/3/movie/{movie_id}?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&language=en-US&append_to_response=videos")
@@ -27,10 +27,10 @@ public interface TvAPI {
     @GET("/tv/on_the_air?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&language=en-US")
     Call<TvShow_testclass> getTvOnAir(@Query("page_no") int page);
 
-    @GET("/tv/popular?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&language=en-US")
+    @GET("3/tv/popular?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&language=en-US")
     Call<TvShow_testclass> getPopularTvShows(@Query("page_no") int page);
 
-    @GET("movie/{movie_id}/videos?api_key=4b4e67d5132e642d0f6bfc206d5e28d0")
+    @GET("3/tv/{movie_id}/videos?api_key=4b4e67d5132e642d0f6bfc206d5e28d0")
     Call<TrailersTestClass> getTrailerList(@Path("movie_id") String id);
 
     @GET("/tv/top_rated?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&language=en-US\n")

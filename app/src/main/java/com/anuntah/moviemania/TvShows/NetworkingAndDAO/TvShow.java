@@ -20,6 +20,9 @@ public class TvShow {
     private String vote_average;
     private String overview;
     private String poster_path;
+    private String trailer_id;
+
+
 
     public TvShow(String id, String name, ArrayList<Integer> genre_ids, String popularity, String vote_count, String first_air_date, String backdrop_path, String vote_average, String overview, String poster_path) {
         this.id = id;
@@ -34,7 +37,29 @@ public class TvShow {
         this.poster_path = poster_path;
     }
 
+    public TvShow(String id, String name, ArrayList<Integer> genre_ids, String popularity, String vote_count, String first_air_date, String backdrop_path, String vote_average, String overview, String poster_path, String trailer_id) {
+        this.id = id;
+        this.name = name;
+        this.genre_ids = genre_ids;
+        this.popularity = popularity;
+        this.vote_count = vote_count;
+        this.first_air_date = first_air_date;
+        this.backdrop_path = backdrop_path;
+        this.vote_average = vote_average;
+        this.overview = overview;
+        this.poster_path = poster_path;
+        this.trailer_id = trailer_id;
+    }
+
     public TvShow() {
+    }
+
+    public String getTrailer_id() {
+        return trailer_id;
+    }
+
+    public void setTrailer_id(String trailer_id) {
+        this.trailer_id = trailer_id;
     }
 
     public String getId() {
