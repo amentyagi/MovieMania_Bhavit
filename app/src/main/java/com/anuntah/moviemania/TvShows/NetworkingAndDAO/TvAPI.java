@@ -24,7 +24,7 @@ public interface TvAPI {
     @GET("https://api.themoviedb.org/3/movie/{movie_id}?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&language=en-US&append_to_response=videos")
     Call<Movie> getMovieDetail(@Path("movie_id") int id);
 
-    @GET("/tv/on_the_air?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&language=en-US")
+    @GET("3/tv/on_the_air?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&language=en-US")
     Call<TvShow_testclass> getTvOnAir(@Query("page_no") int page);
 
     @GET("3/tv/popular?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&language=en-US")
@@ -33,7 +33,7 @@ public interface TvAPI {
     @GET("3/tv/{movie_id}/videos?api_key=4b4e67d5132e642d0f6bfc206d5e28d0")
     Call<TrailersTestClass> getTrailerList(@Path("movie_id") String id);
 
-    @GET("/tv/top_rated?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&language=en-US\n")
+    @GET("3/tv/top_rated?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&language=en-US")
     Call<TvShow_testclass> getTopRatedTvShow(@Query("page_no") int page);
 
     @GET("https://api.themoviedb.org/3/genre/movie/list?api_key=4b4e67d5132e642d0f6bfc206d5e28d0&language=en-US")

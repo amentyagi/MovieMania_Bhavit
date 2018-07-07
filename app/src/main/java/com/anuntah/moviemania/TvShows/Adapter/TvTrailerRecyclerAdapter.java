@@ -25,7 +25,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class TrailerRecyclerAdapter extends RecyclerView.Adapter<TrailerRecyclerAdapter.TrailerViewHolder> {
+public class TvTrailerRecyclerAdapter extends RecyclerView.Adapter<TvTrailerRecyclerAdapter.TrailerViewHolder> {
 
     Date date=new Date();
     private final int UNINITIALIZED = 1;
@@ -53,7 +53,7 @@ public class TrailerRecyclerAdapter extends RecyclerView.Adapter<TrailerRecycler
     private Context context;
     private ArrayList<TvShow> movies;
 
-    public TrailerRecyclerAdapter(Context context, ArrayList<TvShow> movies, TrailerOnClickListener trailerOnClickListener, setOnClickMoviePosterListener moviePosterListener) {
+    public TvTrailerRecyclerAdapter(Context context, ArrayList<TvShow> movies, TrailerOnClickListener trailerOnClickListener, setOnClickMoviePosterListener moviePosterListener) {
         this.context = context;
         this.movies=movies;
         this.trailerOnClickListener=trailerOnClickListener;
